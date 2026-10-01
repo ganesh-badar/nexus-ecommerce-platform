@@ -8,7 +8,10 @@ import {
   CheckCircle2,
   Store,
   UserCheck,
-  PlusCircle
+  PlusCircle,
+  LogIn,
+  LogOut,
+  User
 } from 'lucide-react';
 
 export default function Navbar({
@@ -21,9 +24,20 @@ export default function Navbar({
   isBackendLive,
   currentRole,
   onToggleRole,
-  onOpenAddProduct
+  onOpenAddProduct,
+  currentUser,
+  onOpenAuth,
+  onSignOut
 }) {
   const isSeller = currentRole === 'SELLER';
+  const isLoggedIn = !!currentUser;
+
+  const getInitials = (user) => {
+    if (!user) return '?';
+    const first = user.firstName ? user.firstName[0] : '';
+    const last = user.lastName ? user.lastName[0] : '';
+    return (first + last).toUpperCase() || 'U';
+  };
 
   return (
     <nav className="glass-nav py-3">
@@ -84,7 +98,7 @@ export default function Navbar({
 
         {/* Navigation Action Buttons */}
         <div className="d-flex align-items-center gap-2 ms-auto ms-lg-0">
-          {/* Role Perspective Switcher (Key feature for user) */}
+          {/* Role Perspective Switcher */}
           <div className="btn-group p-1 rounded-pill" style={{ background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)' }}>
             <button
               onClick={() => onToggleRole('CUSTOMER')}
@@ -144,20 +158,50 @@ export default function Navbar({
             </>
           )}
 
-          {/* Current User Avatar */}
-          <div className="d-flex align-items-center ms-2 ps-2 border-start border-secondary">
-            <div
-              className="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold"
-              style={{
-                width: '36px',
-                height: '36px',
-                background: isSeller ? 'linear-gradient(135deg, #10b981, #06b6d4)' : 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-                fontSize: '0.85rem'
-              }}
-              title={isSeller ? "Logged in as Admin / Shop Owner" : "Logged in as Ganesh Kumar (Customer)"}
-            >
-              {isSeller ? 'SO' : 'GK'}
-            </div>
+          {/* User Authentication & Profile */}
+          <div className="d-flex align-items-center ms-2 ps-2 border-start border-secondary border-opacity-25">
+            {isLoggedIn ? (
+              <div className="d-flex align-items-center gap-2">
+                <div
+                  className="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm"
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    background: currentUser.role === 'ROLE_ADMIN' ? 'linear-gradient(135deg, #10b981, #06b6d4)' : 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+                    fontSize: '0.82rem'
+                  }}
+                  title={`${currentUser.firstName} ${currentUser.lastName} (${currentUser.role === 'ROLE_ADMIN' ? 'Shop Owner' : 'Customer'})`}
+                >
+                  {getInitials(currentUser)}
+                </div>
+
+                <div className="d-none d-md-block text-start" style={{ lineHeight: '1.2' }}>
+                  <div className="text-white small fw-bold text-truncate" style={{ maxWidth: '110px' }}>
+                    {currentUser.firstName}
+                  </div>
+                  <div className="text-secondary" style={{ fontSize: '0.68rem' }}>
+                    {currentUser.role === 'ROLE_ADMIN' ? 'Seller' : 'Customer'}
+                  </div>
+                </div>
+
+                <button
+                  onClick={onSignOut}
+                  className="btn btn-sm btn-brand-outline p-1 rounded-2 ms-1 text-danger border-danger border-opacity-25"
+                  title="Sign Out"
+                >
+                  <LogOut size={15} />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={onOpenAuth}
+                className="btn btn-sm btn-brand-outline d-flex align-items-center gap-2 px-3 py-2 rounded-3 fw-bold"
+                style={{ borderColor: '#818cf8', color: '#c7d2fe' }}
+              >
+                <LogIn size={15} />
+                <span>Sign In</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

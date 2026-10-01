@@ -11,6 +11,7 @@ import ToastNotification from './components/ToastNotification';
 import SellerDashboard from './components/SellerDashboard';
 import AddProductModal from './components/AddProductModal';
 import EditProductModal from './components/EditProductModal';
+import AuthModal from './components/AuthModal';
 import {
   fetchProducts,
   fetchCategories,
@@ -21,13 +22,37 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
-  updateOrderStatusAdmin
+  updateOrderStatusAdmin,
+  loginUser,
+  registerUser
 } from './services/api';
-import { Database, Server, Layers, Cpu } from 'lucide-react';
+import { Database, Server, Layers, Cpu, ShieldCheck } from 'lucide-react';
 
 export default function App() {
+  // Authentication State
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('nexus_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [authInitialMode, setAuthInitialMode] = useState('LOGIN');
+
   // Perspective Role: 'CUSTOMER' or 'SELLER'
-  const [currentRole, setCurrentRole] = useState('CUSTOMER');
+  const [currentRole, setCurrentRole] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem('nexus_user');
+      if (savedUser) {
+        const u = JSON.parse(savedUser);
+        return u.role === 'ROLE_ADMIN' ? 'SELLER' : 'CUSTOMER';
+      }
+    } catch {}
+    return 'CUSTOMER';
+  });
 
   // Catalog State
   const [products, setProducts] = useState([]);
@@ -59,7 +84,7 @@ export default function App() {
     setTimeout(() => setToast(null), 4000);
   };
 
-  // 1. Initial Load: check backend health and fetch categories
+  // 1. Initial Load
   useEffect(() => {
     const initialize = async () => {
       const isLive = await checkBackendHealth();
@@ -68,12 +93,14 @@ export default function App() {
       const cats = await fetchCategories();
       setCategories(cats);
 
-      loadOrders();
+      if (currentUser) {
+        loadOrders(currentUser.id);
+      }
     };
     initialize();
-  }, []);
+  }, [currentUser]);
 
-  // 2. Fetch Products whenever category or search changes
+  // 2. Fetch Products
   const loadProducts = async () => {
     setLoading(true);
     const res = await fetchProducts(selectedCategory, searchTerm);
@@ -91,11 +118,42 @@ export default function App() {
   }, [selectedCategory, searchTerm]);
 
   // 3. Load orders
-  const loadOrders = async () => {
+  const loadOrders = async (userId = 1) => {
     setOrdersLoading(true);
-    const res = await fetchUserOrders(1);
+    const res = await fetchUserOrders(userId);
     setOrders(res.orders);
     setOrdersLoading(false);
+  };
+
+  // Auth Actions
+  const handleAuthSuccess = (user) => {
+    setCurrentUser(user);
+    localStorage.setItem('nexus_user', JSON.stringify(user));
+    showToast(`Welcome back, ${user.firstName}!`, 'success', 'Signed In');
+    if (user.role === 'ROLE_ADMIN') {
+      setCurrentRole('SELLER');
+    } else {
+      setCurrentRole('CUSTOMER');
+    }
+    loadOrders(user.id);
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem('nexus_user');
+    setCurrentUser(null);
+    setCurrentRole('CUSTOMER');
+    setCartItems([]);
+    showToast('You have been signed out.', 'info');
+  };
+
+  const requireAuth = (callbackAction) => {
+    if (!currentUser) {
+      showToast('Please sign in or register to continue.', 'info', 'Authentication Required');
+      setAuthInitialMode('LOGIN');
+      setIsAuthOpen(true);
+      return false;
+    }
+    return true;
   };
 
   // Cart Operations
@@ -112,7 +170,7 @@ export default function App() {
         return [...prev, { product, quantity }];
       }
     });
-    showToast(`Added ${quantity}x "${product.name}" to your cart.`, 'success');
+    showToast(`Added ${quantity}x "${product.name}" to cart.`, 'success');
   };
 
   const handleUpdateQuantity = (productId, newQuantity) => {
@@ -133,12 +191,18 @@ export default function App() {
 
   // Order Placement
   const handleProceedToCheckout = () => {
+    if (!requireAuth()) return;
     setIsCartOpen(false);
     setIsCheckoutOpen(true);
   };
 
   const handleOrderSuccess = async (payload) => {
-    const res = await placeOrder(payload);
+    const finalPayload = {
+      ...payload,
+      userId: currentUser ? currentUser.id : 1
+    };
+
+    const res = await placeOrder(finalPayload);
     if (res.success) {
       setCartItems([]);
       showToast(
@@ -146,7 +210,7 @@ export default function App() {
         'success',
         'Order Confirmed 🎉'
       );
-      loadOrders();
+      loadOrders(currentUser ? currentUser.id : 1);
       setIsOrdersOpen(true);
     }
   };
@@ -155,7 +219,7 @@ export default function App() {
     const res = await cancelOrder(orderId);
     if (res.success) {
       showToast(`Order #${orderId} was cancelled. Inventory stock restored.`, 'info');
-      loadOrders();
+      loadOrders(currentUser ? currentUser.id : 1);
       loadProducts();
     }
   };
@@ -193,7 +257,7 @@ export default function App() {
     const res = await updateOrderStatusAdmin(orderId, newStatus);
     if (res.success) {
       showToast(`Order #${orderId} status updated to ${newStatus}.`, 'success');
-      loadOrders();
+      loadOrders(currentUser ? currentUser.id : 1);
     }
   };
 
@@ -209,24 +273,37 @@ export default function App() {
 
   return (
     <div className="min-vh-100 d-flex flex-column">
-      {/* 1. Navbar with Role Perspective Switcher */}
+      {/* 1. Navbar with Role Perspective Switcher and User Profile */}
       <Navbar
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         cartCount={cartCount}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenOrders={() => {
-          loadOrders();
+          if (!requireAuth()) return;
+          loadOrders(currentUser ? currentUser.id : 1);
           setIsOrdersOpen(true);
         }}
         orderCount={orders.length}
         isBackendLive={isBackendLive}
         currentRole={currentRole}
         onToggleRole={(role) => {
+          if (role === 'SELLER' && (!currentUser || currentUser.role !== 'ROLE_ADMIN')) {
+            showToast('Switching to Seller Portal requires Shop Owner authorization.', 'info');
+            setAuthInitialMode('LOGIN');
+            setIsAuthOpen(true);
+            return;
+          }
           setCurrentRole(role);
           showToast(`Switched to ${role === 'SELLER' ? 'Shop Owner / Seller Portal' : 'Customer Storefront'}`, 'info');
         }}
-        onOpenAddProduct={() => setIsAddProductOpen(true)}
+        onOpenAddProduct={() => {
+          if (!requireAuth()) return;
+          setIsAddProductOpen(true);
+        }}
+        currentUser={currentUser}
+        onOpenAuth={() => setIsAuthOpen(true)}
+        onSignOut={handleSignOut}
       />
 
       {/* 2. PERSPECTIVE RENDERING */}
@@ -336,27 +413,41 @@ export default function App() {
         onProductUpdated={handleUpdateProduct}
       />
 
-      {/* 5. Toast Notifications */}
+      {/* 5. Authentication Modal (Login / Register Gate) */}
+      <AuthModal
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        onAuthSuccess={handleAuthSuccess}
+        onLogin={loginUser}
+        onRegister={registerUser}
+        initialMode={authInitialMode}
+      />
+
+      {/* 6. Toast Notifications */}
       <ToastNotification
         toast={toast}
         onClose={() => setToast(null)}
       />
 
-      {/* 6. Architectural Footer */}
+      {/* 7. Architectural Footer */}
       <footer className="mt-auto border-top border-secondary border-opacity-25 py-4" style={{ background: '#090d16' }}>
         <div className="container">
           <div className="row align-items-center justify-content-between g-3">
             <div className="col-md-6 text-center text-md-start">
               <span className="brand-font fw-bold text-white fs-5">NEXUSTECH</span>
               <p className="text-secondary small mb-0 mt-1">
-                Role-Based Architecture &bull; Buyer Storefront &amp; Seller Back-Office &bull; Spring Boot 3 + React 18
+                Verified User Authentication &bull; Role-Based Access Control &bull; Spring Boot 3 + React 18
               </p>
             </div>
 
             <div className="col-md-6">
               <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-end gap-3 text-secondary small">
                 <span className="d-flex align-items-center gap-1">
-                  <Server size={14} className="text-success" />
+                  <ShieldCheck size={14} className="text-success" />
+                  Auth Gate Active
+                </span>
+                <span className="d-flex align-items-center gap-1">
+                  <Server size={14} className="text-primary" />
                   Spring Boot 3
                 </span>
                 <span className="d-flex align-items-center gap-1">
@@ -364,12 +455,8 @@ export default function App() {
                   MySQL &amp; JPA
                 </span>
                 <span className="d-flex align-items-center gap-1">
-                  <Layers size={14} className="text-primary" />
+                  <Layers size={14} className="text-warning" />
                   Bootstrap 5
-                </span>
-                <span className="d-flex align-items-center gap-1">
-                  <Cpu size={14} className="text-warning" />
-                  REST APIs
                 </span>
               </div>
             </div>
