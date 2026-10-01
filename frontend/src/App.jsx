@@ -7,6 +7,7 @@ import ProductDetailsModal from './components/ProductDetailsModal';
 import CartDrawer from './components/CartDrawer';
 import CheckoutModal from './components/CheckoutModal';
 import OrdersModal from './components/OrdersModal';
+import OrderTrackingModal from './components/OrderTrackingModal';
 import ToastNotification from './components/ToastNotification';
 import SellerDashboard from './components/SellerDashboard';
 import AddProductModal from './components/AddProductModal';
@@ -74,6 +75,7 @@ export default function App() {
 
   // Orders & System
   const [orders, setOrders] = useState([]);
+  const [trackingOrder, setTrackingOrder] = useState(null);
   const [isBackendLive, setIsBackendLive] = useState(false);
   const [loading, setLoading] = useState(true);
   const [ordersLoading, setOrdersLoading] = useState(false);
@@ -396,6 +398,14 @@ export default function App() {
         orders={orders}
         onCancelOrder={handleCancelOrder}
         isLoading={ordersLoading}
+        onOpenTracking={(order) => setTrackingOrder(order)}
+      />
+
+      {/* 4. Live Order Tracking Modal */}
+      <OrderTrackingModal
+        isOpen={!!trackingOrder}
+        order={trackingOrder}
+        onClose={() => setTrackingOrder(null)}
       />
 
       {/* 4. Seller Modals */}
