@@ -42,6 +42,14 @@ public class Order {
     @Builder.Default
     private OrderStatus status = OrderStatus.PENDING;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method", length = 30)
+    @Builder.Default
+    private com.ganesh.ecommerce.model.enums.PaymentMethod paymentMethod = com.ganesh.ecommerce.model.enums.PaymentMethod.PREPAID_UPI;
+
+    @Column(name = "payment_id", length = 100)
+    private String paymentId;
+
     @Column(name = "shipping_address", nullable = false)
     private String shippingAddress;
 

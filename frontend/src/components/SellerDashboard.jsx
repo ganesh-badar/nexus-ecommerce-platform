@@ -255,6 +255,7 @@ export default function SellerDashboard({
                   <tr className="text-secondary small border-bottom border-secondary border-opacity-25">
                     <th>Order #</th>
                     <th>Customer</th>
+                    <th>Payment</th>
                     <th>Date</th>
                     <th>Items</th>
                     <th>Total</th>
@@ -269,6 +270,22 @@ export default function SellerDashboard({
                       <td>
                         <div className="text-white small fw-bold">{o.userName || 'Ganesh Kumar'}</div>
                         <div className="text-secondary" style={{ fontSize: '0.75rem' }}>{o.userEmail}</div>
+                      </td>
+                      <td>
+                        {o.paymentMethod === 'COD' ? (
+                          <span className="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 small">
+                            COD (Collect on Delivery)
+                          </span>
+                        ) : (
+                          <div>
+                            <span className="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 small">
+                              Prepaid
+                            </span>
+                            <div className="text-secondary" style={{ fontSize: '0.7rem' }}>
+                              {o.paymentId || 'TXN-PAID'}
+                            </div>
+                          </div>
+                        )}
                       </td>
                       <td className="text-secondary small">
                         {new Date(o.orderDate).toLocaleDateString()}

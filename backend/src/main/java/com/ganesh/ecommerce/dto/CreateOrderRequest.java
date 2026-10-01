@@ -23,6 +23,10 @@ public class CreateOrderRequest {
     @NotBlank(message = "Shipping address is required")
     private String shippingAddress;
 
+    private com.ganesh.ecommerce.model.enums.PaymentMethod paymentMethod;
+
+    private String paymentId;
+
     @NotEmpty(message = "Order must contain at least one item")
     @Valid
     private List<OrderItemRequest> items;

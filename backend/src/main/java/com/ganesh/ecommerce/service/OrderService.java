@@ -33,10 +33,22 @@ public class OrderService {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + request.getUserId()));
 
+        com.ganesh.ecommerce.model.enums.PaymentMethod method = request.getPaymentMethod() != null
+                ? request.getPaymentMethod()
+                : com.ganesh.ecommerce.model.enums.PaymentMethod.PREPAID_UPI;
+
+        boolean isPrepaid = method != com.ganesh.ecommerce.model.enums.PaymentMethod.COD;
+        OrderStatus initialStatus = isPrepaid ? OrderStatus.PAID : OrderStatus.PENDING;
+        String transactionId = isPrepaid
+                ? (request.getPaymentId() != null ? request.getPaymentId() : "TXN-" + System.currentTimeMillis())
+                : null;
+
         Order order = Order.builder()
                 .user(user)
                 .shippingAddress(request.getShippingAddress())
-                .status(OrderStatus.PENDING)
+                .status(initialStatus)
+                .paymentMethod(method)
+                .paymentId(transactionId)
                 .totalAmount(BigDecimal.ZERO)
                 .build();
 
@@ -131,6 +143,8 @@ public class OrderService {
                 .orderDate(order.getOrderDate())
                 .totalAmount(order.getTotalAmount())
                 .status(order.getStatus())
+                .paymentMethod(order.getPaymentMethod())
+                .paymentId(order.getPaymentId())
                 .shippingAddress(order.getShippingAddress())
                 .items(itemResponses)
                 .build();

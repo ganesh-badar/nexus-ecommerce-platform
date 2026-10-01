@@ -166,6 +166,11 @@ export const placeOrder = async (orderPayload) => {
       return sum + (prod ? prod.price * item.quantity : 0);
     }, 0);
 
+    const isPrepaid = orderPayload.paymentMethod !== 'COD';
+    const txnId = isPrepaid 
+      ? (orderPayload.paymentId || `TXN-${orderPayload.paymentMethod === 'PREPAID_CARD' ? 'CARD' : 'UPI'}-${Math.floor(100000 + Math.random() * 900000)}`)
+      : null;
+
     const simulatedOrder = {
       id: Math.floor(1000 + Math.random() * 9000),
       userId: orderPayload.userId,
@@ -173,7 +178,9 @@ export const placeOrder = async (orderPayload) => {
       userEmail: "customer@example.com",
       orderDate: new Date().toISOString(),
       totalAmount: simulatedTotal,
-      status: "PENDING",
+      status: isPrepaid ? "PAID" : "PENDING",
+      paymentMethod: orderPayload.paymentMethod || "PREPAID_UPI",
+      paymentId: txnId,
       shippingAddress: orderPayload.shippingAddress,
       items: orderPayload.items.map((item, idx) => {
         const prod = FALLBACK_PRODUCTS.find(p => p.id === item.productId);

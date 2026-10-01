@@ -22,6 +22,8 @@ public class OrderResponse {
     private LocalDateTime orderDate;
     private BigDecimal totalAmount;
     private OrderStatus status;
+    private com.ganesh.ecommerce.model.enums.PaymentMethod paymentMethod;
+    private String paymentId;
     private String shippingAddress;
     private List<OrderItemResponse> items;
 }

@@ -77,9 +77,18 @@ export default function OrdersModal({
                     {/* Top Order Row */}
                     <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 pb-3 mb-3 border-bottom border-secondary border-opacity-25">
                       <div>
-                        <div className="d-flex align-items-center gap-2 mb-1">
+                        <div className="d-flex align-items-center flex-wrap gap-2 mb-1">
                           <span className="fw-bold text-white">Order #{order.id}</span>
                           {getStatusBadge(order.status)}
+                          {order.paymentMethod === 'COD' ? (
+                            <span className="badge bg-secondary bg-opacity-50 text-warning border border-warning border-opacity-25" style={{ fontSize: '0.72rem' }}>
+                              Cash on Delivery
+                            </span>
+                          ) : (
+                            <span className="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25" style={{ fontSize: '0.72rem' }}>
+                              Prepaid &bull; {order.paymentId || 'TXN-PAID'}
+                            </span>
+                          )}
                         </div>
                         <div className="text-secondary small d-flex align-items-center gap-2">
                           <Clock size={13} />
