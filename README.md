@@ -288,7 +288,7 @@ nexus-ecommerce-platform/
 ---
 
 ## 👨‍💻 Author
-**Ganesh Kumar**
+**Ganesh Badar**
 - GitHub: [@ganesh-badar](https://github.com/ganesh-badar)
 - Email: [ganeshbadar01@gmail.com](mailto:ganeshbadar01@gmail.com)
 
