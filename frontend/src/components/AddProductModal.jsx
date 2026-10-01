@@ -66,7 +66,7 @@ export default function AddProductModal({ isOpen, onClose, onProductCreated, cat
               <PlusCircle size={22} className="text-primary-accent" style={{ color: '#818cf8' }} />
               <div>
                 <h5 className="modal-title fw-bold text-white mb-0">List New Product (Seller Portal)</h5>
-                <span className="text-secondary small">Creates a record via Spring Boot REST API & MySQL</span>
+                <span className="text-secondary small">Publish verified merchandise to active customer storefront</span>
               </div>
             </div>
             <button type="button" className="btn-close btn-close-white" onClick={onClose} disabled={loading}></button>

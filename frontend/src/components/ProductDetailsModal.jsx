@@ -62,7 +62,7 @@ export default function ProductDetailsModal({ product, onClose, onAddToCart }) {
                   <span className="text-secondary small d-block mb-1">Availability:</span>
                   {product.stockQuantity > 0 ? (
                     <span className="badge-stock badge-stock-in">
-                      {product.stockQuantity} units available in MySQL database
+                      In Stock &bull; Ready for Priority Dispatch ({product.stockQuantity} available)
                     </span>
                   ) : (
                     <span className="badge bg-danger bg-opacity-25 text-danger border border-danger">

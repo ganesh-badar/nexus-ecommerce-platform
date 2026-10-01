@@ -453,7 +453,7 @@ export default function CheckoutModal({
 
                       <div className="d-flex align-items-center justify-content-center gap-2 text-secondary small mt-2">
                         <ShieldCheck size={14} className="text-success" />
-                        <span style={{ fontSize: '0.75rem' }}>Encrypted &bull; Instant Database Sync</span>
+                        <span style={{ fontSize: '0.75rem' }}>256-Bit SSL Encrypted &bull; PCI-DSS Compliant</span>
                       </div>
                     </div>
                   </div>

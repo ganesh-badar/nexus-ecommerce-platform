@@ -54,7 +54,7 @@ export default function OrdersModal({
   };
 
   const handleCancel = async (orderId) => {
-    if (window.confirm(`Are you sure you want to cancel Order #${orderId}? Stock will be refunded automatically.`)) {
+    if (window.confirm(`Are you sure you want to cancel Order #${orderId}? Your payment will be refunded to your original payment method.`)) {
       setCancellingId(orderId);
       try {
         await onCancelOrder(orderId);
@@ -87,7 +87,7 @@ export default function OrdersModal({
                 <h5 className="modal-title fw-bold text-white mb-0">
                   My Orders &amp; Live Shipment Tracking
                 </h5>
-                <span className="text-secondary small">Live Database Records with Step-by-Step Delivery Progress</span>
+                <span className="text-secondary small">Real-Time Express Courier Tracking &amp; Delivery Progress</span>
               </div>
             </div>
             <button type="button" className="btn-close btn-close-white" onClick={onClose}></button>
@@ -114,13 +114,13 @@ export default function OrdersModal({
             {isLoading ? (
               <div className="text-center py-5">
                 <Loader2 size={36} className="text-primary spinner-border spinner-border-sm" />
-                <p className="text-secondary mt-2">Loading orders from database...</p>
+                <p className="text-secondary mt-2">Retrieving your orders...</p>
               </div>
             ) : filteredOrders.length === 0 ? (
               <div className="text-center py-5 text-secondary">
                 <Package size={48} className="text-muted mb-3 opacity-50" />
                 <p className="lead fs-6 mb-2">No matching orders found.</p>
-                <p className="small text-muted">Add products to your cart and place an order to test database insertion!</p>
+                <p className="small text-muted">Browse our tech collection and place an order to track it live!</p>
               </div>
             ) : (
               <div className="d-flex flex-column gap-3">
@@ -178,7 +178,7 @@ export default function OrdersModal({
                                 disabled={cancellingId === order.id}
                                 className="btn btn-sm btn-link text-danger p-0 text-decoration-none"
                                 style={{ fontSize: '0.72rem' }}
-                                title="Cancels order and returns stock to MySQL database"
+                                title="Cancel order and request full refund"
                               >
                                 {cancellingId === order.id ? 'Cancelling...' : 'Cancel Order'}
                               </button>

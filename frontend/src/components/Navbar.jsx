@@ -51,25 +51,16 @@ export default function Navbar({
             <span>NEXUS<span className="text-primary-accent" style={{ color: '#818cf8' }}>TECH</span></span>
           </a>
 
-          {/* Backend Connection Indicator */}
-          <div className="d-none d-xl-flex align-items-center gap-1 px-2 py-1 rounded-pill"
+          {/* Live Store Status Indicator */}
+          <div className="d-none d-xl-flex align-items-center gap-2 px-3 py-1 rounded-pill"
                style={{ 
-                 background: isBackendLive ? 'rgba(16, 185, 129, 0.12)' : 'rgba(245, 158, 11, 0.12)',
-                 border: `1px solid ${isBackendLive ? 'rgba(16, 185, 129, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`,
-                 fontSize: '0.72rem'
+                 background: 'rgba(16, 185, 129, 0.12)',
+                 border: '1px solid rgba(16, 185, 129, 0.3)',
+                 fontSize: '0.74rem'
                }}
-               title={isBackendLive ? "Connected to Spring Boot :8080 (MySQL)" : "Spring Boot Standalone Mode"}>
-            {isBackendLive ? (
-              <>
-                <CheckCircle2 size={12} className="text-success" />
-                <span className="text-success fw-medium">Spring Boot Live</span>
-              </>
-            ) : (
-              <>
-                <Server size={12} className="text-warning" />
-                <span className="text-warning fw-medium">Spring Boot (Ready on :8080)</span>
-              </>
-            )}
+               title="Store Systems Operational &bull; Same-Day Dispatch Enabled">
+            <span className="rounded-circle bg-success" style={{ width: '7px', height: '7px', display: 'inline-block', boxShadow: '0 0 8px #10b981' }}></span>
+            <span className="text-success fw-medium">Live Store &bull; Express Dispatch</span>
           </div>
         </div>
 

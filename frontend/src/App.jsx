@@ -27,7 +27,7 @@ import {
   loginUser,
   registerUser
 } from './services/api';
-import { Database, Server, Layers, Cpu, ShieldCheck } from 'lucide-react';
+import { ShieldCheck, Award, Truck, RotateCcw, CheckCircle2 } from 'lucide-react';
 
 export default function App() {
   // Authentication State
@@ -208,7 +208,7 @@ export default function App() {
     if (res.success) {
       setCartItems([]);
       showToast(
-        `Order #${res.order.id} placed successfully! Recorded in MySQL database.`,
+        `Order #${res.order.id} placed successfully! Thank you for choosing NEXUSTECH.`,
         'success',
         'Order Confirmed 🎉'
       );
@@ -220,7 +220,7 @@ export default function App() {
   const handleCancelOrder = async (orderId) => {
     const res = await cancelOrder(orderId);
     if (res.success) {
-      showToast(`Order #${orderId} was cancelled. Inventory stock restored.`, 'info');
+      showToast(`Order #${orderId} cancelled successfully. Refund initiated to original payment method.`, 'info');
       loadOrders(currentUser ? currentUser.id : 1);
       loadProducts();
     }
@@ -439,34 +439,39 @@ export default function App() {
         onClose={() => setToast(null)}
       />
 
-      {/* 7. Architectural Footer */}
+      {/* 7. Premium E-Commerce Footer */}
       <footer className="mt-auto border-top border-secondary border-opacity-25 py-4" style={{ background: '#090d16' }}>
         <div className="container">
           <div className="row align-items-center justify-content-between g-3">
-            <div className="col-md-6 text-center text-md-start">
-              <span className="brand-font fw-bold text-white fs-5">NEXUSTECH</span>
+            <div className="col-md-5 text-center text-md-start">
+              <div className="d-flex align-items-center justify-content-center justify-content-md-start gap-2">
+                <span className="brand-font fw-bold text-white fs-5">NEXUSTECH</span>
+                <span className="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25" style={{ fontSize: '0.7rem' }}>
+                  Official Store
+                </span>
+              </div>
               <p className="text-secondary small mb-0 mt-1">
-                Verified User Authentication &bull; Role-Based Access Control &bull; Spring Boot 3 + React 18
+                Next-Gen Flagship Audio &bull; Precision Computing &bull; Official Manufacturer Warranty
               </p>
             </div>
 
-            <div className="col-md-6">
+            <div className="col-md-7">
               <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-end gap-3 text-secondary small">
                 <span className="d-flex align-items-center gap-1">
                   <ShieldCheck size={14} className="text-success" />
-                  Auth Gate Active
+                  256-Bit SSL Encrypted
                 </span>
                 <span className="d-flex align-items-center gap-1">
-                  <Server size={14} className="text-primary" />
-                  Spring Boot 3
+                  <Award size={14} className="text-warning" />
+                  100% Genuine Certified
                 </span>
                 <span className="d-flex align-items-center gap-1">
-                  <Database size={14} className="text-info" />
-                  MySQL &amp; JPA
+                  <Truck size={14} className="text-info" />
+                  Insured Priority Courier
                 </span>
                 <span className="d-flex align-items-center gap-1">
-                  <Layers size={14} className="text-warning" />
-                  Bootstrap 5
+                  <RotateCcw size={14} className="text-primary-accent" style={{ color: '#818cf8' }} />
+                  30-Day Hassle-Free Returns
                 </span>
               </div>
             </div>

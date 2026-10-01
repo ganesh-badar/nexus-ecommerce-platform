@@ -31,19 +31,19 @@ export default function HeroBanner() {
                  style={{ background: 'rgba(99, 102, 241, 0.15)', border: '1px solid rgba(99, 102, 241, 0.3)' }}>
               <Sparkles size={14} className="text-primary-accent" style={{ color: '#a5b4fc' }} />
               <span style={{ fontSize: '0.825rem', color: '#c7d2fe', fontWeight: 600 }}>
-                Spring Boot & React Full-Stack Architecture
+                ⚡ Flagship Tech Collection &bull; Free Global Courier
               </span>
             </div>
 
             <h1 className="display-5 fw-bold text-white mb-3">
-              Precision Tech, <br />
+              Precision Electronics, <br />
               <span style={{ background: 'linear-gradient(135deg, #818cf8, #c084fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                Engineered for Peak Performance.
+                Crafted for Peak Performance.
               </span>
             </h1>
 
             <p className="lead text-secondary mb-4" style={{ maxWidth: '600px', fontSize: '1rem' }}>
-              Explore our verified catalog with real-time MySQL inventory management, ACID-compliant transactions, and instant order tracking.
+              Explore our verified catalog of industry-leading audio, flagship computing, and studio cameras. Tested by specialists, delivered with priority courier care.
             </p>
 
             {/* Perks Badges */}
@@ -54,7 +54,7 @@ export default function HeroBanner() {
               </div>
               <div className="d-flex align-items-center gap-2">
                 <ShieldCheck size={18} className="text-success" />
-                <span>2-Year Full Coverage</span>
+                <span>2-Year Official Warranty</span>
               </div>
               <div className="d-flex align-items-center gap-2">
                 <RotateCcw size={18} className="text-warning" />

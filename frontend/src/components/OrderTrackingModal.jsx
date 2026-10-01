@@ -46,12 +46,12 @@ export default function OrderTrackingModal({ isOpen, onClose, order }) {
   const steps = [
     {
       title: 'Order Placed',
-      desc: 'Order received & logged in database',
+      desc: 'Order received & verified by fulfillment',
       time: orderDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     },
     {
       title: 'Payment Confirmed',
-      desc: order.paymentMethod === 'COD' ? 'Cash on Delivery verified' : `Prepaid authorized (${order.paymentId || 'TXN-PAID'})`,
+      desc: order.paymentMethod === 'COD' ? 'Cash on Delivery confirmed' : `Prepaid Payment Confirmed • ${order.paymentId || 'TXN-PAID'}`,
       time: 'Verified'
     },
     {
@@ -88,7 +88,7 @@ export default function OrderTrackingModal({ isOpen, onClose, order }) {
               </div>
               <div>
                 <h5 className="modal-title fw-bold text-white mb-0">Live Package Tracking</h5>
-                <span className="text-secondary small">Order #{order.id} &bull; Real-Time Fulfillment Stream</span>
+                <span className="text-secondary small">Order #{order.id} &bull; Priority Express Courier</span>
               </div>
             </div>
             <button type="button" className="btn-close btn-close-white" onClick={onClose}></button>
@@ -100,9 +100,9 @@ export default function OrderTrackingModal({ isOpen, onClose, order }) {
               <div className="alert alert-danger d-flex align-items-center gap-3 p-3 mb-4 rounded-3 border-danger border-opacity-25">
                 <XCircle size={32} className="flex-shrink-0 text-danger" />
                 <div>
-                  <h6 className="fw-bold mb-1">This order has been cancelled</h6>
+                  <h6 className="fw-bold mb-1">Order Successfully Cancelled</h6>
                   <p className="mb-0 small text-danger text-opacity-75">
-                    All inventory units have been refunded to the MySQL database. No further transit updates will be issued.
+                    Your cancellation request has been confirmed. Any payment charged has been refunded to your original payment method within 2-4 business days. No further action is required.
                   </p>
                 </div>
               </div>

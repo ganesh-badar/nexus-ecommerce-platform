@@ -50,7 +50,7 @@ export default function SellerDashboard({
           </div>
           <h2 className="fs-3 fw-bold text-white mb-0">Merchant Operations & Catalog Control</h2>
           <span className="text-secondary small">
-            Directly connected to Spring Boot REST Endpoints & MySQL Database
+            Real-Time Warehouse Inventory, Order Fulfillment &amp; Sales Analytics
           </span>
         </div>
 
@@ -127,7 +127,7 @@ export default function SellerDashboard({
               </div>
             </div>
             <div className="fs-4 fw-bold text-white">${totalRevenue.toFixed(2)}</div>
-            <div className="text-secondary small mt-1">ACID-compliant transactions</div>
+            <div className="text-secondary small mt-1">Verified Net Completed Sales</div>
           </div>
         </div>
       </div>
