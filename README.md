@@ -294,7 +294,7 @@ nexus-ecommerce-platform/
 
 ---
 ---
-Live Deployments
+## Live Deployments 
 GitHub Repository: https://github.com/ganesh-badar/nexus-ecommerce-platform
 GitHub Pages Hosted URL: https://ganesh-badar.github.io/nexus-ecommerce-platform/
 Vercel Live Web App: https://temporary-rushing-maroon-e0hhmnn.vercel.app
