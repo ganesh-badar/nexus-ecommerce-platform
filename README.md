@@ -293,11 +293,9 @@ nexus-ecommerce-platform/
 - Email: [ganeshbadar01@gmail.com](mailto:ganeshbadar01@gmail.com)
 
 ---
----
-## Live Deployments 
-- GitHub Repository: https://github.com/ganesh-badar/nexus-ecommerce-platform
-- GitHub Pages Hosted URL: https://ganesh-badar.github.io/nexus-ecommerce-platform/
-- Vercel Live Web App: https://temporary-rushing-maroon-e0hhmnn.vercel.app
+## 🌐 Live Demo & Repository 
+- **Permanent Live Demo (GitHub Pages)**: [https://ganesh-badar.github.io/nexus-ecommerce-platform/](https://ganesh-badar.github.io/nexus-ecommerce-platform/)
+- **GitHub Repository**: [https://github.com/ganesh-badar/nexus-ecommerce-platform](https://github.com/ganesh-badar/nexus-ecommerce-platform)
 ---
 
 ## 📄 License

@@ -417,8 +417,7 @@ Guarantees client-side SPA routing without 404 errors:
 
 ### 3. Live Deployments
 - **GitHub Repository**: [https://github.com/ganesh-badar/nexus-ecommerce-platform](https://github.com/ganesh-badar/nexus-ecommerce-platform)
-- **GitHub Pages Hosted URL**: [https://ganesh-badar.github.io/nexus-ecommerce-platform/](https://ganesh-badar.github.io/nexus-ecommerce-platform/)
-- **Vercel Live Web App**: [https://temporary-rushing-maroon-e0hhmnn.vercel.app](https://temporary-rushing-maroon-e0hhmnn.vercel.app)
+- **Permanent Live Demo (GitHub Pages)**: [https://ganesh-badar.github.io/nexus-ecommerce-platform/](https://ganesh-badar.github.io/nexus-ecommerce-platform/)
 
 ---
 
