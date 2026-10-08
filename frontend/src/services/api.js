@@ -272,7 +272,8 @@ export const fetchProducts = async (category = '', keyword = '', page = 0, size 
     const res = await fetch(url, { signal: AbortSignal.timeout(2500) });
     if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
     const data = await res.json();
-    return { data: data.content, totalPages: data.totalPages, isLive: true };
+    const list = Array.isArray(data?.content) ? data.content : (Array.isArray(data) ? data : FALLBACK_PRODUCTS);
+    return { data: list, totalPages: data?.totalPages || 1, isLive: true };
   } catch (err) {
     // In-memory fallback filtering
     let filtered = [...FALLBACK_PRODUCTS];
@@ -292,7 +293,7 @@ export const fetchCategories = async () => {
     const res = await fetch(`${API_BASE_URL}/products/categories`, { signal: AbortSignal.timeout(2000) });
     if (!res.ok) throw new Error();
     const categories = await res.json();
-    return ['All', ...categories];
+    return Array.isArray(categories) ? ['All', ...categories] : ['All', 'Audio', 'Computers', 'Wearables', 'Cameras'];
   } catch {
     const categories = Array.from(new Set(FALLBACK_PRODUCTS.map(p => p.category)));
     return ['All', ...categories];
@@ -359,9 +360,9 @@ export const fetchUserOrders = async (userId = 1) => {
     const res = await fetch(`${API_BASE_URL}/orders/user/${userId}`, { signal: AbortSignal.timeout(2500) });
     if (!res.ok) throw new Error();
     const data = await res.json();
-    return { orders: data, isLive: true };
+    return { orders: Array.isArray(data) ? data : fallbackOrders, isLive: true };
   } catch {
-    return { orders: fallbackOrders, isLive: false };
+    return { orders: Array.isArray(fallbackOrders) ? fallbackOrders : [], isLive: false };
   }
 };
 

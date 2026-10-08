@@ -86,30 +86,55 @@ export default function App() {
     setTimeout(() => setToast(null), 4000);
   };
 
-  // 1. Initial Load
+  // 1. Fetch Products
+  const loadProducts = async () => {
+    setLoading(true);
+    try {
+      const res = await fetchProducts(selectedCategory, searchTerm);
+      setProducts(Array.isArray(res?.data) ? res.data : []);
+      if (res?.isLive !== undefined) setIsBackendLive(res.isLive);
+    } catch (err) {
+      console.error('Failed to load products:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 2. Load orders
+  const loadOrders = async (userId = 1) => {
+    setOrdersLoading(true);
+    try {
+      const res = await fetchUserOrders(userId);
+      setOrders(Array.isArray(res?.orders) ? res.orders : []);
+    } catch (err) {
+      console.error('Failed to load orders:', err);
+      setOrders([]);
+    } finally {
+      setOrdersLoading(false);
+    }
+  };
+
+  // 3. Initial Load
   useEffect(() => {
     const initialize = async () => {
-      const isLive = await checkBackendHealth();
-      setIsBackendLive(isLive);
+      try {
+        const isLive = await checkBackendHealth();
+        setIsBackendLive(!!isLive);
 
-      const cats = await fetchCategories();
-      setCategories(cats);
+        const cats = await fetchCategories();
+        if (Array.isArray(cats) && cats.length > 0) {
+          setCategories(cats);
+        }
 
-      if (currentUser) {
-        loadOrders(currentUser.id);
+        if (currentUser && currentUser.id) {
+          loadOrders(currentUser.id);
+        }
+      } catch (err) {
+        console.error('Initialization error:', err);
       }
     };
     initialize();
   }, [currentUser]);
-
-  // 2. Fetch Products
-  const loadProducts = async () => {
-    setLoading(true);
-    const res = await fetchProducts(selectedCategory, searchTerm);
-    setProducts(res.data);
-    if (res.isLive !== undefined) setIsBackendLive(res.isLive);
-    setLoading(false);
-  };
 
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
@@ -118,14 +143,6 @@ export default function App() {
 
     return () => clearTimeout(debounceTimer);
   }, [selectedCategory, searchTerm]);
-
-  // 3. Load orders
-  const loadOrders = async (userId = 1) => {
-    setOrdersLoading(true);
-    const res = await fetchUserOrders(userId);
-    setOrders(res.orders);
-    setOrdersLoading(false);
-  };
 
   // Auth Actions
   const handleAuthSuccess = (user) => {
@@ -264,14 +281,14 @@ export default function App() {
   };
 
   // Sorting
-  const sortedProducts = [...products].sort((a, b) => {
-    if (sortBy === 'price-asc') return a.price - b.price;
-    if (sortBy === 'price-desc') return b.price - a.price;
-    if (sortBy === 'name') return a.name.localeCompare(b.name);
+  const sortedProducts = (Array.isArray(products) ? [...products] : []).sort((a, b) => {
+    if (sortBy === 'price-asc') return (a.price || 0) - (b.price || 0);
+    if (sortBy === 'price-desc') return (b.price || 0) - (a.price || 0);
+    if (sortBy === 'name') return (a.name || '').localeCompare(b.name || '');
     return 0; // featured default
   });
 
-  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const cartCount = (Array.isArray(cartItems) ? cartItems : []).reduce((acc, item) => acc + (item.quantity || 0), 0);
 
   return (
     <div className="min-vh-100 d-flex flex-column">
@@ -286,7 +303,7 @@ export default function App() {
           loadOrders(currentUser ? currentUser.id : 1);
           setIsOrdersOpen(true);
         }}
-        orderCount={orders.length}
+        orderCount={(Array.isArray(orders) ? orders : []).length}
         isBackendLive={isBackendLive}
         currentRole={currentRole}
         onToggleRole={(role) => {
