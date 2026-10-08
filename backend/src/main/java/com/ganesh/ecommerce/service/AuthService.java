@@ -4,6 +4,7 @@ import com.ganesh.ecommerce.dto.AuthResponse;
 import com.ganesh.ecommerce.dto.LoginRequest;
 import com.ganesh.ecommerce.dto.RegisterRequest;
 import com.ganesh.ecommerce.exception.BadRequestException;
+import com.ganesh.ecommerce.exception.ResourceNotFoundException;
 import com.ganesh.ecommerce.model.User;
 import com.ganesh.ecommerce.model.enums.Role;
 import com.ganesh.ecommerce.repository.UserRepository;
@@ -22,7 +23,7 @@ public class AuthService {
     @Transactional(readOnly = true)
     public AuthResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail().trim().toLowerCase())
-                .orElseThrow(() -> new BadRequestException("Invalid email or password"));
+                .orElseThrow(() -> new ResourceNotFoundException("No account found with email '" + request.getEmail().trim().toLowerCase() + "'. Please register first."));
 
         // Match password (sample hash verification or plain match for demo seeds)
         boolean passwordMatches = request.getPassword().equals(user.getPasswordHash()) ||
@@ -32,7 +33,7 @@ public class AuthService {
                 request.getPassword().equals("admin123");
 
         if (!passwordMatches && !request.getPassword().equals("demo123")) {
-            throw new BadRequestException("Invalid email or password");
+            throw new BadRequestException("Invalid password for this account. Please check your credentials.");
         }
 
         return AuthResponse.builder()

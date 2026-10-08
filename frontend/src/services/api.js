@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
+const API_BASE_URL = import.meta?.env?.VITE_API_BASE_URL || 'http://localhost:8080/api';
 
 // In-memory fallback user registry for offline/demo mode
 const FALLBACK_USERS = [
@@ -21,66 +21,127 @@ const FALLBACK_USERS = [
 ];
 
 export const loginUser = async (credentials) => {
+  const cleanEmail = (credentials.email || '').trim().toLowerCase();
+  
   try {
     const res = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials),
+      body: JSON.stringify({ email: cleanEmail, password: credentials.password }),
       signal: AbortSignal.timeout(3000)
     });
+
     if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.message || 'Invalid email or password');
+      let errData = {};
+      try {
+        errData = await res.json();
+      } catch (e) {
+        // non-JSON error
+      }
+
+      const errMsg = errData.message || (res.status === 404 ? 'No account found with this email.' : 'Invalid email or password');
+      const isNotRegistered = res.status === 404 ||
+        errMsg.toLowerCase().includes('not found') ||
+        errMsg.toLowerCase().includes('register') ||
+        errMsg.toLowerCase().includes('no account');
+
+      return {
+        success: false,
+        notRegistered: isNotRegistered,
+        error: errMsg
+      };
     }
+
     const data = await res.json();
     return { success: true, user: data, isLive: true };
   } catch (err) {
+    // Backend offline / network error / timeout: use fallback in-memory registry
     const found = FALLBACK_USERS.find(
-      u => u.email.toLowerCase() === credentials.email.trim().toLowerCase()
+      u => u.email.toLowerCase() === cleanEmail
     );
-    if (found && (found.password === credentials.password || credentials.password === 'demo123')) {
-      const userObj = {
-        id: found.id,
-        email: found.email,
-        firstName: found.firstName,
-        lastName: found.lastName,
-        role: found.role,
-        token: `FALLBACK_SESSION_${Date.now()}`
-      };
-      return { success: true, user: userObj, isLive: false };
+
+    if (found) {
+      if (found.password === credentials.password || credentials.password === 'demo123') {
+        const userObj = {
+          id: found.id,
+          email: found.email,
+          firstName: found.firstName,
+          lastName: found.lastName,
+          role: found.role,
+          token: `FALLBACK_SESSION_${Date.now()}`
+        };
+        return { success: true, user: userObj, isLive: false };
+      } else {
+        return {
+          success: false,
+          notRegistered: false,
+          error: 'Incorrect password for this account. Please try again.'
+        };
+      }
     }
-    return { success: false, error: err.message || 'Invalid email or password' };
+
+    // Email not found in fallback registry either:
+    // User is not registered! Signal notRegistered: true without showing cryptic "Failed to fetch"
+    return {
+      success: false,
+      notRegistered: true,
+      error: `No account found for "${credentials.email.trim()}". Please register to create an account.`
+    };
   }
 };
 
 export const registerUser = async (userData) => {
+  const cleanEmail = (userData.email || '').trim().toLowerCase();
+
   try {
     const res = await fetch(`${API_BASE_URL}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData),
+      body: JSON.stringify({
+        ...userData,
+        email: cleanEmail
+      }),
       signal: AbortSignal.timeout(3000)
     });
+
     if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.message || 'Failed to register account');
+      let errData = {};
+      try {
+        errData = await res.json();
+      } catch (e) {}
+
+      const errMsg = errData.message || 'Failed to register account';
+      const alreadyExists = res.status === 400 && errMsg.toLowerCase().includes('already exists');
+      return {
+        success: false,
+        alreadyExists,
+        error: errMsg
+      };
     }
+
     const data = await res.json();
     return { success: true, user: data, isLive: true };
   } catch (err) {
-    const emailExists = FALLBACK_USERS.some(u => u.email.toLowerCase() === userData.email.trim().toLowerCase());
+    // Backend offline / network error: register into fallback in-memory registry
+    const emailExists = FALLBACK_USERS.some(u => u.email.toLowerCase() === cleanEmail);
     if (emailExists) {
-      return { success: false, error: 'An account with this email already exists.' };
+      return {
+        success: false,
+        alreadyExists: true,
+        error: `An account with "${cleanEmail}" already exists. Please sign in instead.`
+      };
     }
+
     const newUser = {
       id: Math.floor(10 + Math.random() * 90),
-      email: userData.email.trim().toLowerCase(),
+      email: cleanEmail,
       password: userData.password,
-      firstName: userData.firstName.trim(),
-      lastName: userData.lastName.trim(),
+      firstName: (userData.firstName || '').trim(),
+      lastName: (userData.lastName || '').trim(),
       role: userData.role || 'ROLE_CUSTOMER'
     };
     FALLBACK_USERS.push(newUser);
+
     const userObj = {
       id: newUser.id,
       email: newUser.email,
