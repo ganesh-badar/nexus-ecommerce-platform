@@ -24,9 +24,7 @@ export default function Navbar({
   onOpenAddProduct,
   currentUser,
   onOpenAuth,
-  onSignOut,
-  customDomain,
-  onOpenDomainModal
+  onSignOut
 }) {
   const isSeller = currentRole === 'SELLER';
   const isLoggedIn = !!currentUser;
@@ -49,26 +47,6 @@ export default function Navbar({
             </div>
             <span>NEXUS<span className="text-secondary fw-normal">STORE</span></span>
           </a>
-
-          {/* Live Custom Domain Verification Badge */}
-          <button
-            onClick={onOpenDomainModal}
-            className="btn btn-sm d-none d-xl-flex align-items-center gap-2 px-2 py-1 rounded-1 text-decoration-none"
-            style={{ 
-              background: '#11151f',
-              border: '1px solid #232734',
-              fontSize: '0.74rem'
-            }}
-            title="Inspect connected custom domain and DNS verification status"
-          >
-            <span className="rounded-circle bg-success" style={{ width: '6px', height: '6px' }}></span>
-            <span className="mono-font text-secondary">
-              {customDomain?.domain || 'store.nexustech.io'}
-            </span>
-            <span className="badge bg-success bg-opacity-25 text-success p-1" style={{ fontSize: '0.65rem' }}>
-              DNS OK
-            </span>
-          </button>
         </div>
 
         {/* Global Search Bar (Only shown in Buyer view) */}

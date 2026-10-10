@@ -15,7 +15,6 @@ import EditProductModal from './components/EditProductModal';
 import AuthModal from './components/AuthModal';
 import PrivacyPolicyModal from './components/PrivacyPolicyModal';
 import TermsModal from './components/TermsModal';
-import CustomDomainModal from './components/CustomDomainModal';
 import {
   fetchProducts,
   fetchCategories,
@@ -58,30 +57,6 @@ export default function App() {
     return 'CUSTOMER';
   });
 
-  // Custom Domain & Production Launch State
-  const [customDomain, setCustomDomain] = useState(() => {
-    try {
-      const saved = localStorage.getItem('nexus_custom_domain');
-      return saved ? JSON.parse(saved) : {
-        domain: 'store.nexustech.io',
-        connected: true,
-        verifiedAt: new Date().toISOString(),
-        sslStatus: 'ACTIVE_TLS_1_3',
-        dnsRecords: {
-          aRecord: '76.76.21.21',
-          cname: 'cname.nexustech.io'
-        }
-      };
-    } catch {
-      return {
-        domain: 'store.nexustech.io',
-        connected: true,
-        verifiedAt: new Date().toISOString(),
-        sslStatus: 'ACTIVE_TLS_1_3'
-      };
-    }
-  });
-
   // Catalog State
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState(['All']);
@@ -97,7 +72,6 @@ export default function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   // Compliance & Launch Modals
-  const [isDomainModalOpen, setIsDomainModalOpen] = useState(false);
   const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
   const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
 
@@ -116,12 +90,6 @@ export default function App() {
   const showToast = (message, type = 'success', title = '') => {
     setToast({ message, type, title });
     setTimeout(() => setToast(null), 4000);
-  };
-
-  const handleUpdateCustomDomain = (newDomainObj) => {
-    setCustomDomain(newDomainObj);
-    localStorage.setItem('nexus_custom_domain', JSON.stringify(newDomainObj));
-    showToast(`Custom domain ${newDomainObj.domain} connected & verified!`, 'success', 'Domain Connected');
   };
 
   // 1. Initial Load
@@ -345,8 +313,6 @@ export default function App() {
         currentUser={currentUser}
         onOpenAuth={() => setIsAuthOpen(true)}
         onSignOut={handleSignOut}
-        customDomain={customDomain}
-        onOpenDomainModal={() => setIsDomainModalOpen(true)}
       />
 
       {/* 2. PERSPECTIVE RENDERING */}
@@ -360,17 +326,12 @@ export default function App() {
             onEditProduct={(p) => setEditingProduct(p)}
             onDeleteProduct={handleDeleteProduct}
             onUpdateOrderStatus={handleUpdateOrderStatus}
-            customDomain={customDomain}
-            onOpenDomainModal={() => setIsDomainModalOpen(true)}
           />
         </main>
       ) : (
         /* CUSTOMER STOREFRONT VIEW */
         <>
-          <HeroBanner
-            customDomain={customDomain}
-            onOpenDomainModal={() => setIsDomainModalOpen(true)}
-          />
+          <HeroBanner />
 
           <CategoryFilter
             categories={categories}
@@ -490,13 +451,6 @@ export default function App() {
         onClose={() => setIsTermsModalOpen(false)}
       />
 
-      <CustomDomainModal
-        isOpen={isDomainModalOpen}
-        onClose={() => setIsDomainModalOpen(false)}
-        customDomain={customDomain}
-        onUpdateCustomDomain={handleUpdateCustomDomain}
-      />
-
       {/* 8. Toast Notifications */}
       <ToastNotification
         toast={toast}
@@ -517,9 +471,6 @@ export default function App() {
               <p className="text-secondary small mb-0 mt-1" style={{ fontSize: '0.8rem' }}>
                 Direct Hardware Storefront &bull; 24-Month Manufacturer Warranty &bull; Carrier Logistics
               </p>
-              <div className="text-secondary small mt-1 mono-font" style={{ fontSize: '0.74rem' }}>
-                Host: <button onClick={() => setIsDomainModalOpen(true)} className="btn btn-link p-0 text-white text-decoration-none mono-font" style={{ fontSize: '0.74rem' }}>https://{customDomain?.domain || 'store.nexustech.io'} [DNS Verified]</button>
-              </div>
             </div>
 
             <div className="col-md-7">
@@ -541,15 +492,6 @@ export default function App() {
                   style={{ fontSize: '0.8rem' }}
                 >
                   Terms &amp; Conditions
-                </button>
-                <span className="text-secondary opacity-25">&bull;</span>
-                <button
-                  type="button"
-                  onClick={() => setIsDomainModalOpen(true)}
-                  className="btn btn-link text-secondary p-0 text-decoration-none small hover-white"
-                  style={{ fontSize: '0.8rem' }}
-                >
-                  Domain Settings
                 </button>
                 <span className="text-secondary opacity-25">&bull;</span>
                 <span className="d-flex align-items-center gap-1 text-light">

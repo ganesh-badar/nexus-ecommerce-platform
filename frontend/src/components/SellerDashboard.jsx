@@ -19,9 +19,7 @@ export default function SellerDashboard({
   onOpenAddProduct,
   onEditProduct,
   onDeleteProduct,
-  onUpdateOrderStatus,
-  customDomain,
-  onOpenDomainModal
+  onUpdateOrderStatus
 }) {
   const [activeTab, setActiveTab] = useState('inventory');
   const [inventorySearch, setInventorySearch] = useState('');
@@ -50,20 +48,11 @@ export default function SellerDashboard({
           </div>
           <h2 className="fs-3 fw-bold text-white mb-0">Hardware Inventory &amp; Order Fulfillment</h2>
           <span className="text-secondary small">
-            Live Warehouse Allocation, Shipment Status Transitions &amp; Custom Domain Management
+            Live Warehouse Allocation &amp; Shipment Status Transitions
           </span>
         </div>
 
         <div className="d-flex align-items-center gap-2">
-          <button
-            onClick={onOpenDomainModal}
-            className="btn btn-brand-outline px-3 py-2 d-flex align-items-center gap-2 fw-medium rounded-1"
-            title="Inspect Domain and DNS configuration"
-          >
-            <Globe size={16} />
-            <span className="mono-font" style={{ fontSize: '0.8rem' }}>{customDomain?.domain || 'store.nexustech.io'}</span>
-          </button>
-
           <button
             onClick={onOpenAddProduct}
             className="btn btn-brand-solid px-4 py-2 d-flex align-items-center gap-2 fw-bold rounded-1"
@@ -159,14 +148,6 @@ export default function SellerDashboard({
         >
           <ShoppingBag size={16} />
           <span>Customer Orders ({orders.length})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('domain')}
-          className={`btn ${activeTab === 'domain' ? 'btn-brand-solid' : 'btn-brand-outline'} px-3 py-2 rounded-1 fw-bold d-flex align-items-center gap-2`}
-        >
-          <Globe size={16} />
-          <span>Custom Domain &amp; Launch Status</span>
         </button>
       </div>
 
@@ -322,62 +303,6 @@ export default function SellerDashboard({
               </table>
             </div>
           )}
-        </div>
-      )}
-
-      {/* Tab 3: Custom Domain & Launch Status */}
-      {activeTab === 'domain' && (
-        <div className="p-4 rounded-1" style={{ background: '#111318', border: '1px solid #232734' }}>
-          <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4 pb-3 border-bottom border-secondary border-opacity-25">
-            <div>
-              <h5 className="text-white fw-bold mb-1">Production Domain &amp; Launch Gate</h5>
-              <p className="text-secondary small mb-0">
-                All pre-launch compliance checks verified: Custom domain connected, favicon linked, AI watermarks eliminated, legal pages published.
-              </p>
-            </div>
-            <button
-              onClick={onOpenDomainModal}
-              className="btn btn-brand-solid px-4 py-2 rounded-1 fw-bold d-flex align-items-center gap-2"
-            >
-              <Globe size={16} />
-              <span>Configure Domain DNS</span>
-            </button>
-          </div>
-
-          <div className="row g-3">
-            <div className="col-md-6">
-              <div className="p-3 rounded-1" style={{ background: '#0e1118', border: '1px solid #232734' }}>
-                <span className="text-secondary small mono-font d-block mb-1">CONNECTED DOMAIN</span>
-                <div className="d-flex align-items-center gap-2 mb-2">
-                  <Lock size={16} className="text-success" />
-                  <span className="mono-font fs-6 fw-bold text-white">
-                    https://{customDomain?.domain || 'store.nexustech.io'}
-                  </span>
-                </div>
-                <div className="d-flex gap-2">
-                  <span className="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-2 py-1">
-                    DNS Verified
-                  </span>
-                  <span className="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 px-2 py-1">
-                    TLS 1.3 Active
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-6">
-              <div className="p-3 rounded-1" style={{ background: '#0e1118', border: '1px solid #232734' }}>
-                <span className="text-secondary small mono-font d-block mb-1">LAUNCH STATUS</span>
-                <div className="d-flex align-items-center gap-2 mb-2">
-                  <ShieldCheck size={16} className="text-success" />
-                  <span className="fs-6 fw-bold text-white">Production Operational</span>
-                </div>
-                <p className="text-secondary small mb-0" style={{ fontSize: '0.78rem' }}>
-                  Storefront is live with zero mock watermarks, clean typography, authenticated checkout, and transactional database persistence.
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       )}
     </div>

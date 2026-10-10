@@ -1,7 +1,7 @@
 import React from 'react';
 import { ShieldCheck, Truck, RotateCcw } from 'lucide-react';
 
-export default function HeroBanner({ onOpenDomainModal, customDomain }) {
+export default function HeroBanner() {
   return (
     <div className="container mt-4 mb-4">
       <div 
@@ -15,14 +15,12 @@ export default function HeroBanner({ onOpenDomainModal, customDomain }) {
           <div className="col-lg-9">
             {/* System Status Eyebrow Tag (Rectangular, NO Pill, NO Emoji) */}
             <div 
-              className="d-inline-flex align-items-center gap-2 px-2 py-1 mb-3 rounded-1 cursor-pointer"
+              className="d-inline-flex align-items-center gap-2 px-2 py-1 mb-3 rounded-1"
               style={{ background: '#141824', border: '1px solid #2d3448' }}
-              onClick={onOpenDomainModal}
-              title="Click to inspect custom domain and DNS verification status"
             >
               <span className="rounded-circle bg-success" style={{ width: '6px', height: '6px' }} />
               <span className="mono-font" style={{ fontSize: '0.72rem', color: '#94a3b8', letterSpacing: '0.04em' }}>
-                HOST: {customDomain?.domain || 'store.nexustech.io'} &bull; DNS VERIFIED &bull; TLS 1.3
+                ENTERPRISE HARDWARE CATALOG &bull; DIRECT OEM DISPATCH &bull; VERIFIED INVENTORY
               </span>
             </div>
 
