@@ -1,64 +1,54 @@
 import React from 'react';
-import { ShieldCheck, Truck, RotateCcw, Sparkles } from 'lucide-react';
+import { ShieldCheck, Truck, RotateCcw } from 'lucide-react';
 
-export default function HeroBanner() {
+export default function HeroBanner({ onOpenDomainModal, customDomain }) {
   return (
     <div className="container mt-4 mb-4">
       <div 
-        className="p-4 p-md-5 rounded-4 position-relative overflow-hidden"
+        className="p-4 p-md-5 rounded-1 position-relative overflow-hidden"
         style={{
-          background: 'linear-gradient(135deg, rgba(30, 27, 75, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%)',
-          border: '1px solid rgba(99, 102, 241, 0.25)',
-          boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.5)'
+          background: '#0d1017',
+          border: '1px solid #232734'
         }}
       >
-        {/* Glow accents */}
-        <div 
-          className="position-absolute rounded-circle"
-          style={{
-            width: '320px',
-            height: '320px',
-            background: 'radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%)',
-            top: '-80px',
-            right: '-50px',
-            pointerEvents: 'none'
-          }}
-        />
-
         <div className="row align-items-center position-relative">
-          <div className="col-lg-8">
-            <div className="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3"
-                 style={{ background: 'rgba(99, 102, 241, 0.15)', border: '1px solid rgba(99, 102, 241, 0.3)' }}>
-              <Sparkles size={14} className="text-primary-accent" style={{ color: '#a5b4fc' }} />
-              <span style={{ fontSize: '0.825rem', color: '#c7d2fe', fontWeight: 600 }}>
-                ⚡ Flagship Tech Collection &bull; Free Global Courier
+          <div className="col-lg-9">
+            {/* System Status Eyebrow Tag (Rectangular, NO Pill, NO Emoji) */}
+            <div 
+              className="d-inline-flex align-items-center gap-2 px-2 py-1 mb-3 rounded-1 cursor-pointer"
+              style={{ background: '#141824', border: '1px solid #2d3448' }}
+              onClick={onOpenDomainModal}
+              title="Click to inspect custom domain and DNS verification status"
+            >
+              <span className="rounded-circle bg-success" style={{ width: '6px', height: '6px' }} />
+              <span className="mono-font" style={{ fontSize: '0.72rem', color: '#94a3b8', letterSpacing: '0.04em' }}>
+                HOST: {customDomain?.domain || 'store.nexustech.io'} &bull; DNS VERIFIED &bull; TLS 1.3
               </span>
             </div>
 
-            <h1 className="display-5 fw-bold text-white mb-3">
-              Precision Electronics, <br />
-              <span style={{ background: 'linear-gradient(135deg, #818cf8, #c084fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                Crafted for Peak Performance.
-              </span>
+            {/* Direct, Concrete Headline (NO Vague Buzzwords, NO Purple Text) */}
+            <h1 className="display-6 fw-bold text-white mb-3">
+              Direct Hardware Storefront &amp; Enterprise Logistics
             </h1>
 
-            <p className="lead text-secondary mb-4" style={{ maxWidth: '600px', fontSize: '1rem' }}>
-              Explore our verified catalog of industry-leading audio, flagship computing, and studio cameras. Tested by specialists, delivered with priority courier care.
+            {/* Direct, Factual Product Copy (NO AI Slop) */}
+            <p className="text-secondary mb-4" style={{ maxWidth: '680px', fontSize: '0.95rem', lineHeight: '1.6' }}>
+              Verifiable manufacturer inventory covering professional studio audio, computing workstations, and field capture equipment. Real-time stock reservation, validated serial tracking, and same-day priority dispatch.
             </p>
 
-            {/* Perks Badges */}
-            <div className="d-flex flex-wrap gap-4 text-secondary" style={{ fontSize: '0.85rem' }}>
+            {/* Factual Operational Guarantees (Clean SVG Icons, NO Emojis) */}
+            <div className="d-flex flex-wrap gap-4 text-secondary" style={{ fontSize: '0.82rem' }}>
               <div className="d-flex align-items-center gap-2">
-                <Truck size={18} className="text-info" />
-                <span>Free Express Shipping</span>
+                <Truck size={16} className="text-info" />
+                <span className="text-light">24-Hour Carrier Handoff</span>
               </div>
               <div className="d-flex align-items-center gap-2">
-                <ShieldCheck size={18} className="text-success" />
-                <span>2-Year Official Warranty</span>
+                <ShieldCheck size={16} className="text-success" />
+                <span className="text-light">2-Year Official Manufacturer Warranty</span>
               </div>
               <div className="d-flex align-items-center gap-2">
-                <RotateCcw size={18} className="text-warning" />
-                <span>30-Day Hassle-Free Returns</span>
+                <RotateCcw size={16} className="text-warning" />
+                <span className="text-light">30-Day Inspection &amp; Return Protocol</span>
               </div>
             </div>
           </div>

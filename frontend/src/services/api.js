@@ -22,7 +22,7 @@ const FALLBACK_USERS = [
 
 export const loginUser = async (credentials) => {
   const cleanEmail = (credentials.email || '').trim().toLowerCase();
-  
+
   try {
     const res = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
@@ -108,7 +108,7 @@ export const registerUser = async (userData) => {
       let errData = {};
       try {
         errData = await res.json();
-      } catch (e) {}
+      } catch (e) { }
 
       const errMsg = errData.message || 'Failed to register account';
       const alreadyExists = res.status === 400 && errMsg.toLowerCase().includes('already exists');
@@ -272,8 +272,7 @@ export const fetchProducts = async (category = '', keyword = '', page = 0, size 
     const res = await fetch(url, { signal: AbortSignal.timeout(2500) });
     if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
     const data = await res.json();
-    const list = Array.isArray(data?.content) ? data.content : (Array.isArray(data) ? data : FALLBACK_PRODUCTS);
-    return { data: list, totalPages: data?.totalPages || 1, isLive: true };
+    return { data: data.content, totalPages: data.totalPages, isLive: true };
   } catch (err) {
     // In-memory fallback filtering
     let filtered = [...FALLBACK_PRODUCTS];
@@ -281,8 +280,8 @@ export const fetchProducts = async (category = '', keyword = '', page = 0, size 
       filtered = filtered.filter(p => p.category.toLowerCase() === category.toLowerCase());
     }
     if (keyword) {
-      filtered = filtered.filter(p => p.name.toLowerCase().includes(keyword.toLowerCase()) || 
-                                     p.description.toLowerCase().includes(keyword.toLowerCase()));
+      filtered = filtered.filter(p => p.name.toLowerCase().includes(keyword.toLowerCase()) ||
+        p.description.toLowerCase().includes(keyword.toLowerCase()));
     }
     return { data: filtered, totalPages: 1, isLive: false };
   }
@@ -293,7 +292,7 @@ export const fetchCategories = async () => {
     const res = await fetch(`${API_BASE_URL}/products/categories`, { signal: AbortSignal.timeout(2000) });
     if (!res.ok) throw new Error();
     const categories = await res.json();
-    return Array.isArray(categories) ? ['All', ...categories] : ['All', 'Audio', 'Computers', 'Wearables', 'Cameras'];
+    return ['All', ...categories];
   } catch {
     const categories = Array.from(new Set(FALLBACK_PRODUCTS.map(p => p.category)));
     return ['All', ...categories];
@@ -322,7 +321,7 @@ export const placeOrder = async (orderPayload) => {
     }, 0);
 
     const isPrepaid = orderPayload.paymentMethod !== 'COD';
-    const txnId = isPrepaid 
+    const txnId = isPrepaid
       ? (orderPayload.paymentId || `TXN-${orderPayload.paymentMethod === 'PREPAID_CARD' ? 'CARD' : 'UPI'}-${Math.floor(100000 + Math.random() * 900000)}`)
       : null;
 
@@ -360,9 +359,9 @@ export const fetchUserOrders = async (userId = 1) => {
     const res = await fetch(`${API_BASE_URL}/orders/user/${userId}`, { signal: AbortSignal.timeout(2500) });
     if (!res.ok) throw new Error();
     const data = await res.json();
-    return { orders: Array.isArray(data) ? data : fallbackOrders, isLive: true };
+    return { orders: data, isLive: true };
   } catch {
-    return { orders: Array.isArray(fallbackOrders) ? fallbackOrders : [], isLive: false };
+    return { orders: fallbackOrders, isLive: false };
   }
 };
 

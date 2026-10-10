@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  User,
   Lock,
   Mail,
   UserPlus,
@@ -9,7 +8,6 @@ import {
   AlertCircle,
   Store,
   ShoppingBag,
-  Sparkles,
   Loader2,
   ShieldCheck,
   X
@@ -21,7 +19,7 @@ export default function AuthModal({
   onAuthSuccess,
   onLogin,
   onRegister,
-  initialMode = 'LOGIN' // 'LOGIN' or 'REGISTER'
+  initialMode = 'LOGIN'
 }) {
   const [mode, setMode] = useState(initialMode);
   
@@ -35,13 +33,12 @@ export default function AuthModal({
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [accountType, setAccountType] = useState('ROLE_CUSTOMER'); // ROLE_CUSTOMER or ROLE_ADMIN
+  const [accountType, setAccountType] = useState('ROLE_CUSTOMER');
 
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [noticeMsg, setNoticeMsg] = useState(null);
 
-  // Sync mode and reset messages when modal is opened or initialMode changes
   useEffect(() => {
     if (isOpen) {
       setMode(initialMode || 'LOGIN');
@@ -71,7 +68,6 @@ export default function AuthModal({
       onAuthSuccess(res.user);
       onClose();
     } else if (res.notRegistered) {
-      // User is not registered! Seamlessly switch to Register view with email prefilled
       const enteredEmail = loginEmail.trim();
       setRegisterEmail(enteredEmail);
       if (loginPassword) {
@@ -83,7 +79,7 @@ export default function AuthModal({
       setNoticeMsg({
         type: 'not_registered',
         title: 'Account Not Found — Switched to Register',
-        message: `We couldn't find an account for "${enteredEmail}". We've switched you to registration with your details pre-filled so you can sign up instantly!`
+        message: `We couldn't find an account for "${enteredEmail}". We've switched you to registration with your details pre-filled so you can sign up instantly.`
       });
     } else {
       setErrorMsg(res.error || 'Invalid credentials. Please verify or register.');
@@ -146,7 +142,6 @@ export default function AuthModal({
     }
   };
 
-  // Quick Demo Autofills
   const fillCustomerDemo = () => {
     setLoginEmail('customer@example.com');
     setLoginPassword('password123');
@@ -183,49 +178,47 @@ export default function AuthModal({
           <button
             type="button"
             onClick={onClose}
-            className="btn btn-sm text-secondary position-absolute top-0 end-0 m-3 d-flex align-items-center justify-content-center p-1 rounded-circle"
+            className="btn btn-sm text-secondary position-absolute top-0 end-0 m-3 d-flex align-items-center justify-content-center p-1 rounded-1"
             style={{ zIndex: 10, background: 'rgba(255,255,255,0.08)' }}
             aria-label="Close"
           >
-            <X size={18} className="text-white" />
+            <X size={16} className="text-white" />
           </button>
 
-          {/* Top Banner */}
-          <div className="p-4 text-center border-bottom border-secondary border-opacity-25" style={{ background: 'linear-gradient(135deg, rgba(30, 27, 75, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%)' }}>
-            <div className="d-inline-flex p-3 rounded-circle btn-brand-gradient mb-2 shadow-lg">
-              <ShieldCheck size={28} className="text-white" />
+          {/* Top Banner (NO PURPLE GRADIENTS, NO PILL BADGES) */}
+          <div className="p-4 text-center border-bottom border-secondary border-opacity-25" style={{ background: '#0e1118' }}>
+            <div className="d-inline-flex p-2 rounded-1 bg-white text-dark mb-2">
+              <ShieldCheck size={24} className="text-dark" />
             </div>
             <h4 className="fw-bold text-white mb-1">
-              {mode === 'LOGIN' ? 'Welcome Back to NexusTech' : 'Create Your Verified Account'}
+              {mode === 'LOGIN' ? 'Access Nexus Account' : 'Register Verified Account'}
             </h4>
             <p className="text-secondary small mb-0">
               {mode === 'LOGIN'
-                ? 'Sign in to access your orders, cart, and seller back-office'
-                : 'Join our verified platform as a customer or shop owner'}
+                ? 'Authenticate to manage order dispatches, cart reservations, and merchant operations'
+                : 'Join the direct hardware distribution platform'}
             </p>
           </div>
 
           {/* Mode Switcher Tabs */}
-          <div className="d-flex border-bottom border-secondary border-opacity-25" style={{ background: '#0b1120' }}>
+          <div className="d-flex border-bottom border-secondary border-opacity-25" style={{ background: '#090a0f' }}>
             <button
               onClick={switchToLogin}
               className={`btn flex-fill py-3 rounded-0 fw-bold d-flex align-items-center justify-content-center gap-2 ${
-                mode === 'LOGIN' ? 'text-primary-accent border-bottom border-2 border-primary' : 'text-secondary'
+                mode === 'LOGIN' ? 'text-white border-bottom border-2 border-white' : 'text-secondary'
               }`}
-              style={{ color: mode === 'LOGIN' ? '#818cf8' : undefined }}
             >
-              <LogIn size={16} />
-              <span>Sign In (Existing User)</span>
+              <LogIn size={15} />
+              <span>Sign In</span>
             </button>
             <button
               onClick={switchToRegister}
               className={`btn flex-fill py-3 rounded-0 fw-bold d-flex align-items-center justify-content-center gap-2 ${
-                mode === 'REGISTER' ? 'text-primary-accent border-bottom border-2 border-primary' : 'text-secondary'
+                mode === 'REGISTER' ? 'text-white border-bottom border-2 border-white' : 'text-secondary'
               }`}
-              style={{ color: mode === 'REGISTER' ? '#818cf8' : undefined }}
             >
-              <UserPlus size={16} />
-              <span>New Account (Register)</span>
+              <UserPlus size={15} />
+              <span>Register</span>
             </button>
           </div>
 
@@ -234,26 +227,25 @@ export default function AuthModal({
             {/* Friendly Auto-Switch Notification */}
             {noticeMsg && (
               <div 
-                className="p-3 rounded-3 mb-3 border shadow-sm animate-fade-in"
+                className="p-3 rounded-1 mb-3 border shadow-sm animate-fade-in"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.2) 0%, rgba(147, 51, 234, 0.18) 100%)',
-                  borderColor: 'rgba(129, 140, 248, 0.45)',
-                  color: '#e0e7ff'
+                  background: '#141824',
+                  borderColor: '#2d3448',
+                  color: '#e2e8f0'
                 }}
               >
                 <div className="d-flex align-items-start gap-2">
                   <div 
-                    className="p-1 rounded-2 flex-shrink-0 mt-0" 
-                    style={{ background: 'rgba(99, 102, 241, 0.35)', color: '#c7d2fe' }}
+                    className="p-1 rounded-1 flex-shrink-0 mt-0 bg-secondary bg-opacity-25 text-white"
                   >
-                    <Sparkles size={16} />
+                    <AlertCircle size={15} />
                   </div>
                   <div className="flex-grow-1">
                     <div className="fw-bold small text-white mb-1 d-flex align-items-center gap-2">
                       <span>{noticeMsg.title}</span>
-                      <span className="badge bg-primary bg-opacity-75 text-white" style={{ fontSize: '0.65rem' }}>Auto-Switched</span>
+                      <span className="badge bg-secondary text-white" style={{ fontSize: '0.65rem' }}>Auto-Switched</span>
                     </div>
-                    <p className="small mb-0" style={{ color: '#c7d2fe', lineHeight: 1.4 }}>
+                    <p className="small mb-0 text-secondary" style={{ lineHeight: 1.4, fontSize: '0.78rem' }}>
                       {noticeMsg.message}
                     </p>
                   </div>
@@ -261,10 +253,9 @@ export default function AuthModal({
                     type="button"
                     onClick={() => setNoticeMsg(null)}
                     className="btn btn-sm text-secondary p-0 ms-1"
-                    style={{ lineHeight: 1 }}
-                    aria-label="Dismiss notice"
+                    aria-label="Dismiss"
                   >
-                    <X size={14} className="text-white-50" />
+                    <X size={14} />
                   </button>
                 </div>
               </div>
@@ -272,8 +263,8 @@ export default function AuthModal({
 
             {/* Error Message */}
             {errorMsg && (
-              <div className="alert alert-danger py-2 px-3 small d-flex align-items-center gap-2 mb-3">
-                <AlertCircle size={16} className="flex-shrink-0" />
+              <div className="alert alert-danger py-2 px-3 small d-flex align-items-center gap-2 mb-3 rounded-1">
+                <AlertCircle size={15} className="flex-shrink-0" />
                 <span>{errorMsg}</span>
               </div>
             )}
@@ -288,7 +279,7 @@ export default function AuthModal({
                     <input
                       type="email"
                       className="form-control custom-input ps-5"
-                      placeholder="your.email@example.com"
+                      placeholder="name@example.com"
                       value={loginEmail}
                       onChange={(e) => setLoginEmail(e.target.value)}
                       required
@@ -303,7 +294,7 @@ export default function AuthModal({
                     <input
                       type="password"
                       className="form-control custom-input ps-5"
-                      placeholder="Enter password"
+                      placeholder="Enter account password"
                       value={loginPassword}
                       onChange={(e) => setLoginPassword(e.target.value)}
                       required
@@ -311,11 +302,10 @@ export default function AuthModal({
                   </div>
                 </div>
 
-                {/* Quick 1-Click Demo Logins */}
-                <div className="p-3 rounded-3 mb-3" style={{ background: '#0b1120', border: '1px solid rgba(255,255,255,0.06)' }}>
-                  <div className="text-secondary small fw-bold mb-2 d-flex align-items-center gap-1">
-                    <Sparkles size={13} className="text-warning" />
-                    <span>Instant Demo Accounts:</span>
+                {/* Quick Autofill Demo Credentials */}
+                <div className="p-2 rounded-1 mb-3" style={{ background: '#0e1118', border: '1px solid #232734' }}>
+                  <div className="text-secondary small mb-1 mono-font" style={{ fontSize: '0.7rem' }}>
+                    QUICK DEMO CREDENTIALS:
                   </div>
                   <div className="d-flex gap-2">
                     <button
@@ -325,7 +315,7 @@ export default function AuthModal({
                       style={{ fontSize: '0.75rem' }}
                     >
                       <ShoppingBag size={12} className="text-info" />
-                      <span>Customer (Ganesh)</span>
+                      <span>Customer Buyer</span>
                     </button>
                     <button
                       type="button"
@@ -342,16 +332,16 @@ export default function AuthModal({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="btn btn-brand-gradient w-100 py-3 rounded-3 d-flex align-items-center justify-content-center gap-2 fw-bold"
+                  className="btn btn-brand-solid w-100 py-3 rounded-1 d-flex align-items-center justify-content-center gap-2 fw-bold"
                 >
                   {loading ? (
                     <>
-                      <Loader2 size={18} className="spinner-border spinner-border-sm" />
+                      <Loader2 size={16} className="spinner-border spinner-border-sm" />
                       <span>Authenticating...</span>
                     </>
                   ) : (
                     <>
-                      <LogIn size={18} />
+                      <LogIn size={16} />
                       <span>Sign In &amp; Continue</span>
                     </>
                   )}
@@ -362,8 +352,7 @@ export default function AuthModal({
                   <button
                     type="button"
                     onClick={switchToRegister}
-                    className="btn btn-link text-primary-accent p-0 small text-decoration-none fw-bold"
-                    style={{ color: '#818cf8' }}
+                    className="btn btn-link text-white p-0 small text-decoration-none fw-bold"
                   >
                     Register here &rarr;
                   </button>
@@ -380,7 +369,7 @@ export default function AuthModal({
                     <input
                       type="text"
                       className="form-control custom-input"
-                      placeholder="e.g. Rahul"
+                      placeholder="e.g. John"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       required
@@ -391,7 +380,7 @@ export default function AuthModal({
                     <input
                       type="text"
                       className="form-control custom-input"
-                      placeholder="e.g. Sharma"
+                      placeholder="e.g. Doe"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                       required
@@ -443,13 +432,13 @@ export default function AuthModal({
                     <div className="col-6">
                       <div
                         onClick={() => setAccountType('ROLE_CUSTOMER')}
-                        className="p-2 rounded-3 cursor-pointer text-center"
+                        className="p-2 rounded-1 cursor-pointer text-center"
                         style={{
-                          background: accountType === 'ROLE_CUSTOMER' ? 'rgba(99, 102, 241, 0.2)' : '#0b1120',
-                          border: `1.5px solid ${accountType === 'ROLE_CUSTOMER' ? '#818cf8' : 'rgba(255,255,255,0.08)'}`
+                          background: accountType === 'ROLE_CUSTOMER' ? '#141824' : '#0e1118',
+                          border: `1.5px solid ${accountType === 'ROLE_CUSTOMER' ? '#f8fafc' : '#232734'}`
                         }}
                       >
-                        <ShoppingBag size={18} className="text-info mb-1" />
+                        <ShoppingBag size={16} className="text-info mb-1" />
                         <div className="text-white small fw-bold">Customer</div>
                         <div className="text-secondary" style={{ fontSize: '0.68rem' }}>Browse &amp; buy</div>
                       </div>
@@ -457,13 +446,13 @@ export default function AuthModal({
                     <div className="col-6">
                       <div
                         onClick={() => setAccountType('ROLE_ADMIN')}
-                        className="p-2 rounded-3 cursor-pointer text-center"
+                        className="p-2 rounded-1 cursor-pointer text-center"
                         style={{
-                          background: accountType === 'ROLE_ADMIN' ? 'rgba(99, 102, 241, 0.2)' : '#0b1120',
-                          border: `1.5px solid ${accountType === 'ROLE_ADMIN' ? '#818cf8' : 'rgba(255,255,255,0.08)'}`
+                          background: accountType === 'ROLE_ADMIN' ? '#141824' : '#0e1118',
+                          border: `1.5px solid ${accountType === 'ROLE_ADMIN' ? '#f8fafc' : '#232734'}`
                         }}
                       >
-                        <Store size={18} className="text-warning mb-1" />
+                        <Store size={16} className="text-warning mb-1" />
                         <div className="text-white small fw-bold">Shop Owner</div>
                         <div className="text-secondary" style={{ fontSize: '0.68rem' }}>List &amp; fulfill</div>
                       </div>
@@ -474,16 +463,16 @@ export default function AuthModal({
                 <button
                   type="submit"
                   disabled={loading}
-                  className="btn btn-brand-gradient w-100 py-3 rounded-3 d-flex align-items-center justify-content-center gap-2 fw-bold"
+                  className="btn btn-brand-solid w-100 py-3 rounded-1 d-flex align-items-center justify-content-center gap-2 fw-bold"
                 >
                   {loading ? (
                     <>
-                      <Loader2 size={18} className="spinner-border spinner-border-sm" />
+                      <Loader2 size={16} className="spinner-border spinner-border-sm" />
                       <span>Creating Account...</span>
                     </>
                   ) : (
                     <>
-                      <CheckCircle size={18} />
+                      <CheckCircle size={16} />
                       <span>Complete Registration</span>
                     </>
                   )}
@@ -494,8 +483,7 @@ export default function AuthModal({
                   <button
                     type="button"
                     onClick={switchToLogin}
-                    className="btn btn-link text-primary-accent p-0 small text-decoration-none fw-bold"
-                    style={{ color: '#818cf8' }}
+                    className="btn btn-link text-white p-0 small text-decoration-none fw-bold"
                   >
                     Sign In here &rarr;
                   </button>

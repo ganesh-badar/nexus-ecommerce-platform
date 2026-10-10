@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import {
   CreditCard,
   Truck,
-  CheckCircle2,
   Lock,
   Loader2,
   QrCode,
   Smartphone,
   Building,
   ShieldCheck,
-  Zap,
-  ArrowRight
+  Zap
 } from 'lucide-react';
 
 export default function CheckoutModal({
@@ -100,12 +98,12 @@ export default function CheckoutModal({
           {/* Header */}
           <div className="modal-header border-secondary border-opacity-25 pb-3">
             <div className="d-flex align-items-center gap-2">
-              <div className="p-2 rounded-2 btn-brand-gradient">
-                <Lock size={18} className="text-white" />
+              <div className="p-2 rounded-1 bg-white text-dark">
+                <Lock size={18} className="text-dark" />
               </div>
               <div>
-                <h5 className="modal-title fw-bold text-white mb-0">Secure Checkout &amp; Payment</h5>
-                <span className="text-secondary small">Prepaid Instant Gateway &amp; Cash on Delivery Supported</span>
+                <h5 className="modal-title fw-bold text-white mb-0">Secure Checkout &amp; Settlement</h5>
+                <span className="text-secondary small">Direct Inventory Allocation &bull; Encrypted Gateway</span>
               </div>
             </div>
             <button type="button" className="btn-close btn-close-white" onClick={onClose} disabled={isSubmitting}></button>
@@ -173,15 +171,15 @@ export default function CheckoutModal({
                     <div className="col-sm-6">
                       <div
                         onClick={() => setPaymentMethod('PREPAID_UPI')}
-                        className="p-3 rounded-3 cursor-pointer h-100 transition"
+                        className="p-3 rounded-1 cursor-pointer h-100 transition"
                         style={{
-                          background: paymentMethod === 'PREPAID_UPI' ? 'rgba(99, 102, 241, 0.18)' : '#0f172a',
-                          border: `1.5px solid ${paymentMethod === 'PREPAID_UPI' ? '#818cf8' : 'rgba(255,255,255,0.08)'}`
+                          background: paymentMethod === 'PREPAID_UPI' ? '#141824' : '#0d1017',
+                          border: `1.5px solid ${paymentMethod === 'PREPAID_UPI' ? '#f8fafc' : '#232734'}`
                         }}
                       >
                         <div className="d-flex justify-content-between align-items-center mb-1">
                           <div className="d-flex align-items-center gap-2">
-                            <Smartphone size={18} className="text-primary-accent" style={{ color: '#818cf8' }} />
+                            <Smartphone size={16} className="text-white" />
                             <span className="text-white fw-bold small">Prepaid UPI / QR</span>
                           </div>
                           <span className="badge bg-success bg-opacity-25 text-success small">Instant</span>
@@ -196,15 +194,15 @@ export default function CheckoutModal({
                     <div className="col-sm-6">
                       <div
                         onClick={() => setPaymentMethod('PREPAID_CARD')}
-                        className="p-3 rounded-3 cursor-pointer h-100 transition"
+                        className="p-3 rounded-1 cursor-pointer h-100 transition"
                         style={{
-                          background: paymentMethod === 'PREPAID_CARD' ? 'rgba(99, 102, 241, 0.18)' : '#0f172a',
-                          border: `1.5px solid ${paymentMethod === 'PREPAID_CARD' ? '#818cf8' : 'rgba(255,255,255,0.08)'}`
+                          background: paymentMethod === 'PREPAID_CARD' ? '#141824' : '#0d1017',
+                          border: `1.5px solid ${paymentMethod === 'PREPAID_CARD' ? '#f8fafc' : '#232734'}`
                         }}
                       >
                         <div className="d-flex justify-content-between align-items-center mb-1">
                           <div className="d-flex align-items-center gap-2">
-                            <CreditCard size={18} className="text-info" />
+                            <CreditCard size={16} className="text-info" />
                             <span className="text-white fw-bold small">Prepaid Card</span>
                           </div>
                           <span className="badge bg-info bg-opacity-25 text-info small">Cards</span>
@@ -219,21 +217,21 @@ export default function CheckoutModal({
                     <div className="col-sm-6">
                       <div
                         onClick={() => setPaymentMethod('PREPAID_NETBANKING')}
-                        className="p-3 rounded-3 cursor-pointer h-100 transition"
+                        className="p-3 rounded-1 cursor-pointer h-100 transition"
                         style={{
-                          background: paymentMethod === 'PREPAID_NETBANKING' ? 'rgba(99, 102, 241, 0.18)' : '#0f172a',
-                          border: `1.5px solid ${paymentMethod === 'PREPAID_NETBANKING' ? '#818cf8' : 'rgba(255,255,255,0.08)'}`
+                          background: paymentMethod === 'PREPAID_NETBANKING' ? '#141824' : '#0d1017',
+                          border: `1.5px solid ${paymentMethod === 'PREPAID_NETBANKING' ? '#f8fafc' : '#232734'}`
                         }}
                       >
                         <div className="d-flex justify-content-between align-items-center mb-1">
                           <div className="d-flex align-items-center gap-2">
-                            <Building size={18} className="text-warning" />
+                            <Building size={16} className="text-warning" />
                             <span className="text-white fw-bold small">Net Banking</span>
                           </div>
                           <span className="badge bg-warning bg-opacity-25 text-warning small">Direct</span>
                         </div>
                         <div className="text-secondary" style={{ fontSize: '0.75rem' }}>
-                          All major Indian &amp; Global banks
+                          All major commercial institutions
                         </div>
                       </div>
                     </div>
@@ -408,7 +406,7 @@ export default function CheckoutModal({
 
                         <div className="d-flex justify-content-between fs-5 fw-bold text-white border-top border-secondary border-opacity-25 pt-2">
                           <span>Amount Due</span>
-                          <span style={{ color: '#818cf8' }}>${total.toFixed(2)}</span>
+                          <span className="mono-font">${total.toFixed(2)}</span>
                         </div>
 
                         <div className="mt-2 text-center">
@@ -428,23 +426,23 @@ export default function CheckoutModal({
                     <div className="mt-4 pt-3 border-top border-secondary border-opacity-25">
                       {isSubmitting && processingStep ? (
                         <div className="text-center py-2">
-                          <Loader2 size={24} className="spinner-border text-primary spinner-border-sm mb-2" />
+                          <Loader2 size={24} className="spinner-border text-white spinner-border-sm mb-2" />
                           <div className="text-white small fw-bold">{processingStep}</div>
                         </div>
                       ) : (
                         <button
                           type="submit"
                           disabled={isSubmitting || cartItems.length === 0}
-                          className="btn btn-brand-gradient w-100 py-3 rounded-3 d-flex align-items-center justify-content-center gap-2 fw-bold fs-6 shadow-lg"
+                          className="btn btn-brand-solid w-100 py-3 rounded-1 d-flex align-items-center justify-content-center gap-2 fw-bold fs-6"
                         >
                           {isPrepaid ? (
                             <>
-                              <Zap size={18} />
-                              <span>Pay &amp; Place Order &bull; ${total.toFixed(2)}</span>
+                              <Lock size={16} />
+                              <span>Authorize Payment &bull; ${total.toFixed(2)}</span>
                             </>
                           ) : (
                             <>
-                              <Truck size={18} />
+                              <Truck size={16} />
                               <span>Confirm Cash on Delivery Order</span>
                             </>
                           )}

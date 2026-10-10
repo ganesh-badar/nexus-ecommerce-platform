@@ -1,4 +1,4 @@
-# ⚡ NexusTech &mdash; Enterprise Full-Stack E-Commerce Platform
+# Nexus &mdash; Enterprise Full-Stack E-Commerce Platform
 
 [![Java](https://img.shields.io/badge/Java-17%2B-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.1-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
@@ -14,13 +14,13 @@ Built with dual **Role-Based Access Perspectives**: a customer-facing B2C storef
 
 ---
 
-## 🏛️ System Architecture
+## System Architecture
 
 ```mermaid
 graph TD
     subgraph Frontend ["React 18 + Bootstrap 5 (Client)"]
-        UI_Buyer["🛍️ Buyer Storefront (Catalog, Cart, Checkout, Order Tracking)"]
-        UI_Seller["🏪 Seller Portal (Inventory CRUD, Stock Management, Fulfillment)"]
+        UI_Buyer["Buyer Storefront (Catalog, Cart, Checkout, Order Tracking)"]
+        UI_Seller["Seller Portal (Inventory CRUD, Stock Management, Fulfillment)"]
         API_Client["API Service Layer (Fetch Client with Graceful Fallback)"]
     end
 
@@ -71,24 +71,25 @@ graph TD
 
 ---
 
-## 🌟 Key Features
+## Key Features
 
-### 🛍️ 1. Buyer Experience (`Customer View`)
-- **Product Discovery**: Dynamic catalog with instant search, category pills, price sorting, and stock status indicators.
+### 1. Buyer Experience (`Customer View`)
+- **Product Discovery**: Dynamic catalog with instant search, structured category tabs, price sorting, and stock status indicators.
 - **Product Inspection**: Quick-view modal with high-res imagery, technical specifications, and inventory count.
 - **Cart Management**: Offcanvas shopping drawer with quantity steppers, subtotal computation, estimated taxes, and free delivery badges.
 - **Checkout Flow**: Validated checkout with multiple shipping presets, simulated payment methods, and immediate order placement.
 - **Real-Time Order Tracking**: Customer order history with live status updates (`PENDING`, `PAID`, `SHIPPED`, `DELIVERED`, `CANCELLED`) and self-service cancellation with inventory refund.
 
-### 🏪 2. Shop Owner Experience (`Seller Portal`)
+### 2. Shop Owner Experience (`Seller Portal`)
 - **Executive Metrics**: Live KPI cards for total products listed, available units in stock, low-stock alerts, customer order count, and gross volume.
 - **Product Publishing**: "+ List New Product" modal with image URL presets, dynamic category creation, price validation, and stock allotment (`POST /api/products`).
 - **Inventory Control**: Real-time catalog table with inline editing (`PUT /api/products/{id}`) and catalog removal (`DELETE /api/products/{id}`).
 - **Order Fulfillment**: Dedicated fulfillment stream allowing merchants to transition customer order lifecycles (`PENDING` &rarr; `PAID` &rarr; `SHIPPED` &rarr; `DELIVERED`).
+- **Custom Domain & DNS**: Full custom domain connection interface with live DNS verification records (A / CNAME), SSL status validation, and pre-launch compliance checks.
 
 ---
 
-## 🗄️ Database Schema & Relational Design
+## Database Schema & Relational Design
 
 The application uses an InnoDB MySQL schema with strict foreign keys and precision constraints:
 
@@ -173,7 +174,7 @@ CREATE TABLE order_items (
 
 ---
 
-## 💡 Senior Engineering Highlights
+## Senior Engineering Highlights
 
 1. **Transactional Integrity (`@Transactional`)**:
    Order placement executes within an atomic transaction. If inventory is insufficient for any requested item, the entire transaction rolls back cleanly, preventing partial inventory deductions.
@@ -188,7 +189,7 @@ CREATE TABLE order_items (
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - **Java**: JDK 17 or higher
@@ -241,7 +242,7 @@ CREATE TABLE order_items (
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 nexus-ecommerce-platform/

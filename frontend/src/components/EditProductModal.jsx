@@ -116,13 +116,13 @@ export default function EditProductModal({ isOpen, onClose, product, onProductUp
             </div>
 
             <div className="modal-footer border-secondary border-opacity-25">
-              <button type="button" className="btn btn-brand-outline" onClick={onClose} disabled={loading}>
+              <button type="button" className="btn btn-brand-outline rounded-1" onClick={onClose} disabled={loading}>
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="btn btn-brand-gradient px-4 py-2 d-flex align-items-center gap-2 fw-bold"
+                className="btn btn-brand-solid px-4 py-2 d-flex align-items-center gap-2 fw-bold rounded-1"
               >
                 {loading ? (
                   <>

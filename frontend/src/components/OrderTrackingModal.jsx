@@ -83,8 +83,8 @@ export default function OrderTrackingModal({ isOpen, onClose, order }) {
           {/* Header */}
           <div className="modal-header border-secondary border-opacity-25 pb-3">
             <div className="d-flex align-items-center gap-2">
-              <div className="p-2 rounded-2 btn-brand-gradient">
-                <Truck size={18} className="text-white" />
+              <div className="p-2 rounded-1 bg-white text-dark">
+                <Truck size={18} className="text-dark" />
               </div>
               <div>
                 <h5 className="modal-title fw-bold text-white mb-0">Live Package Tracking</h5>
@@ -97,7 +97,7 @@ export default function OrderTrackingModal({ isOpen, onClose, order }) {
           <div className="modal-body p-4" style={{ maxHeight: '75vh', overflowY: 'auto' }}>
             {/* If Order is Cancelled */}
             {isCancelled ? (
-              <div className="alert alert-danger d-flex align-items-center gap-3 p-3 mb-4 rounded-3 border-danger border-opacity-25">
+              <div className="alert alert-danger d-flex align-items-center gap-3 p-3 mb-4 rounded-1 border-danger border-opacity-25">
                 <XCircle size={32} className="flex-shrink-0 text-danger" />
                 <div>
                   <h6 className="fw-bold mb-1">Order Successfully Cancelled</h6>
@@ -109,15 +109,15 @@ export default function OrderTrackingModal({ isOpen, onClose, order }) {
             ) : (
               /* Live Estimated Delivery Banner */
               <div
-                className="p-3 p-md-4 rounded-3 mb-4 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3"
-                style={{ background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(15, 23, 42, 0.8) 100%)', border: '1px solid rgba(99, 102, 241, 0.3)' }}
+                className="p-3 p-md-4 rounded-1 mb-4 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3"
+                style={{ background: '#11151f', border: '1px solid #232734' }}
               >
                 <div>
                   <span className="text-secondary small fw-bold text-uppercase d-block mb-1">
                     {order.status === 'DELIVERED' ? 'Delivery Completed' : 'Estimated Arrival'}
                   </span>
                   <div className="fs-4 fw-bold text-white d-flex align-items-center gap-2">
-                    <Calendar size={22} className="text-primary-accent" style={{ color: '#818cf8' }} />
+                    <Calendar size={20} className="text-info" />
                     <span>{estimatedDelivery.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}</span>
                   </div>
                   <div className="text-secondary small mt-1">
@@ -172,12 +172,12 @@ export default function OrderTrackingModal({ isOpen, onClose, order }) {
 
                         {/* Step Icon Badge */}
                         <div
-                          className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                          className="rounded-1 d-flex align-items-center justify-content-center flex-shrink-0"
                           style={{
-                            width: '32px',
-                            height: '32px',
-                            background: isPassed ? (isCurrent ? '#6366f1' : '#10b981') : '#1e293b',
-                            border: `2px solid ${isPassed ? (isCurrent ? '#818cf8' : '#34d399') : 'rgba(255, 255, 255, 0.2)'}`,
+                            width: '28px',
+                            height: '28px',
+                            background: isPassed ? (isCurrent ? '#2563eb' : '#10b981') : '#171a23',
+                            border: `1.5px solid ${isPassed ? (isCurrent ? '#60a5fa' : '#34d399') : '#2e3547'}`,
                             color: 'white',
                             zIndex: 2
                           }}

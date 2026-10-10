@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingCart, Eye, Star, Check } from 'lucide-react';
+import { ShoppingCart, Eye, Check } from 'lucide-react';
 
 export default function ProductCard({ product, onAddToCart, onQuickView }) {
   const [added, setAdded] = useState(false);
@@ -24,12 +24,10 @@ export default function ProductCard({ product, onAddToCart, onQuickView }) {
 
       {/* Card Body */}
       <div className="p-3 d-flex flex-column flex-grow-1">
-        {/* Rating and Stock Status */}
+        {/* Genuine Technical Parameters & Stock Status (NO Fake Reviews or Fake Stars) */}
         <div className="d-flex align-items-center justify-content-between mb-2">
-          <div className="d-flex align-items-center gap-1 text-warning" style={{ fontSize: '0.8rem' }}>
-            <Star size={13} fill="currentColor" />
-            <span className="fw-semibold text-light">4.9</span>
-            <span className="text-secondary">(120+)</span>
+          <div className="mono-font text-secondary" style={{ fontSize: '0.74rem', letterSpacing: '0.03em' }}>
+            SKU: NX-{1000 + (product.id || 0)}
           </div>
 
           <div>
@@ -39,7 +37,7 @@ export default function ProductCard({ product, onAddToCart, onQuickView }) {
               </span>
             ) : isLowStock ? (
               <span className="badge-stock badge-stock-low">
-                Only {product.stockQuantity} left
+                Stock: {product.stockQuantity} Left
               </span>
             ) : (
               <span className="badge-stock badge-stock-in">
@@ -58,15 +56,15 @@ export default function ProductCard({ product, onAddToCart, onQuickView }) {
           {product.name}
         </h3>
 
-        {/* Description snippet */}
-        <p className="text-secondary small mb-3 flex-grow-1" style={{ fontSize: '0.82rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+        {/* Factual Technical Description Snippet */}
+        <p className="text-secondary small mb-3 flex-grow-1" style={{ fontSize: '0.8125rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: '1.5' }}>
           {product.description}
         </p>
 
         {/* Price & Action Footer */}
         <div className="d-flex align-items-center justify-content-between pt-2 border-top border-secondary border-opacity-25 mt-auto">
           <div>
-            <span className="text-secondary" style={{ fontSize: '0.72rem', display: 'block' }}>Price</span>
+            <span className="text-secondary mono-font" style={{ fontSize: '0.7rem', display: 'block' }}>UNIT PRICE</span>
             <span className="fs-5 fw-bold text-white">
               ${parseFloat(product.price).toFixed(2)}
             </span>
@@ -75,26 +73,26 @@ export default function ProductCard({ product, onAddToCart, onQuickView }) {
           <div className="d-flex gap-2">
             <button
               onClick={() => onQuickView(product)}
-              className="btn btn-sm btn-brand-outline p-2 rounded-3"
-              title="Quick view product details"
+              className="btn btn-sm btn-brand-outline p-2 rounded-1"
+              title="Inspect specifications"
             >
-              <Eye size={16} />
+              <Eye size={15} />
             </button>
 
             <button
               onClick={handleAdd}
               disabled={isOutOfStock}
-              className={`btn btn-sm ${added ? 'btn-success' : 'btn-brand-gradient'} px-3 py-2 rounded-3 d-flex align-items-center gap-1`}
+              className={`btn btn-sm ${added ? 'btn-success' : 'btn-brand-solid'} px-3 py-2 rounded-1 d-flex align-items-center gap-1`}
               title="Add to shopping cart"
             >
               {added ? (
                 <>
-                  <Check size={16} />
+                  <Check size={15} />
                   <span>Added</span>
                 </>
               ) : (
                 <>
-                  <ShoppingCart size={16} />
+                  <ShoppingCart size={15} />
                   <span>Add</span>
                 </>
               )}

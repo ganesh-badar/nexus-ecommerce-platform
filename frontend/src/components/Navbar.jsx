@@ -3,15 +3,12 @@ import {
   ShoppingBag,
   Search,
   PackageCheck,
-  Zap,
-  Server,
-  CheckCircle2,
   Store,
   UserCheck,
   PlusCircle,
   LogIn,
   LogOut,
-  User
+  Cpu
 } from 'lucide-react';
 
 export default function Navbar({
@@ -27,7 +24,9 @@ export default function Navbar({
   onOpenAddProduct,
   currentUser,
   onOpenAuth,
-  onSignOut
+  onSignOut,
+  customDomain,
+  onOpenDomainModal
 }) {
   const isSeller = currentRole === 'SELLER';
   const isLoggedIn = !!currentUser;
@@ -42,36 +41,44 @@ export default function Navbar({
   return (
     <nav className="glass-nav py-3">
       <div className="container d-flex flex-wrap align-items-center justify-content-between gap-3">
-        {/* Brand Logo & Tagline */}
+        {/* Brand Logo & Domain Identifier (NO EMOJIS, NO PURPLE) */}
         <div className="d-flex align-items-center gap-3">
           <a href="#" className="d-flex align-items-center gap-2 text-decoration-none text-white brand-font fs-4 fw-bold">
-            <div className="p-2 rounded-3 btn-brand-gradient d-flex align-items-center justify-content-center" style={{ width: '38px', height: '38px' }}>
-              <Zap size={22} className="text-white" />
+            <div className="p-2 rounded-1 bg-white text-dark d-flex align-items-center justify-content-center" style={{ width: '34px', height: '34px' }}>
+              <Cpu size={20} className="text-dark" />
             </div>
-            <span>NEXUS<span className="text-primary-accent" style={{ color: '#818cf8' }}>TECH</span></span>
+            <span>NEXUS<span className="text-secondary fw-normal">STORE</span></span>
           </a>
 
-          {/* Live Store Status Indicator */}
-          <div className="d-none d-xl-flex align-items-center gap-2 px-3 py-1 rounded-pill"
-               style={{ 
-                 background: 'rgba(16, 185, 129, 0.12)',
-                 border: '1px solid rgba(16, 185, 129, 0.3)',
-                 fontSize: '0.74rem'
-               }}
-               title="Store Systems Operational &bull; Same-Day Dispatch Enabled">
-            <span className="rounded-circle bg-success" style={{ width: '7px', height: '7px', display: 'inline-block', boxShadow: '0 0 8px #10b981' }}></span>
-            <span className="text-success fw-medium">Live Store &bull; Express Dispatch</span>
-          </div>
+          {/* Live Custom Domain Verification Badge */}
+          <button
+            onClick={onOpenDomainModal}
+            className="btn btn-sm d-none d-xl-flex align-items-center gap-2 px-2 py-1 rounded-1 text-decoration-none"
+            style={{ 
+              background: '#11151f',
+              border: '1px solid #232734',
+              fontSize: '0.74rem'
+            }}
+            title="Inspect connected custom domain and DNS verification status"
+          >
+            <span className="rounded-circle bg-success" style={{ width: '6px', height: '6px' }}></span>
+            <span className="mono-font text-secondary">
+              {customDomain?.domain || 'store.nexustech.io'}
+            </span>
+            <span className="badge bg-success bg-opacity-25 text-success p-1" style={{ fontSize: '0.65rem' }}>
+              DNS OK
+            </span>
+          </button>
         </div>
 
         {/* Global Search Bar (Only shown in Buyer view) */}
         {!isSeller && (
           <div className="position-relative flex-grow-1 mx-lg-3" style={{ maxWidth: '380px', minWidth: '200px' }}>
-            <Search size={18} className="position-absolute text-muted" style={{ left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
+            <Search size={16} className="position-absolute text-muted" style={{ left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
             <input
               type="text"
               className="form-control custom-input ps-5"
-              placeholder="Search audio, laptops, cameras..."
+              placeholder="Search hardware, audio, displays..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -87,13 +94,13 @@ export default function Navbar({
           </div>
         )}
 
-        {/* Navigation Action Buttons */}
+        {/* Navigation Action Buttons (NO PILL SHAPES) */}
         <div className="d-flex align-items-center gap-2 ms-auto ms-lg-0">
-          {/* Role Perspective Switcher */}
-          <div className="btn-group p-1 rounded-pill" style={{ background: '#1e293b', border: '1px solid rgba(255,255,255,0.1)' }}>
+          {/* Role Perspective Switcher (Rectangular tabs) */}
+          <div className="btn-group p-1 rounded-1" style={{ background: '#11151f', border: '1px solid #232734' }}>
             <button
               onClick={() => onToggleRole('CUSTOMER')}
-              className={`btn btn-sm px-3 py-1 rounded-pill d-flex align-items-center gap-1 fw-bold ${!isSeller ? 'btn-brand-gradient' : 'text-secondary'}`}
+              className={`btn btn-sm px-3 py-1 rounded-1 d-flex align-items-center gap-1 fw-bold ${!isSeller ? 'btn-brand-solid' : 'text-secondary'}`}
               style={{ fontSize: '0.78rem' }}
             >
               <UserCheck size={14} />
@@ -101,7 +108,7 @@ export default function Navbar({
             </button>
             <button
               onClick={() => onToggleRole('SELLER')}
-              className={`btn btn-sm px-3 py-1 rounded-pill d-flex align-items-center gap-1 fw-bold ${isSeller ? 'btn-brand-gradient' : 'text-secondary'}`}
+              className={`btn btn-sm px-3 py-1 rounded-1 d-flex align-items-center gap-1 fw-bold ${isSeller ? 'btn-brand-solid' : 'text-secondary'}`}
               style={{ fontSize: '0.78rem' }}
             >
               <Store size={14} />
@@ -113,7 +120,7 @@ export default function Navbar({
           {isSeller ? (
             <button
               onClick={onOpenAddProduct}
-              className="btn btn-sm btn-brand-gradient d-flex align-items-center gap-2 px-3 py-2 rounded-3 ms-2 fw-bold"
+              className="btn btn-sm btn-brand-solid d-flex align-items-center gap-2 px-3 py-2 rounded-1 ms-2 fw-bold"
             >
               <PlusCircle size={16} />
               <span>List Product</span>
@@ -123,25 +130,25 @@ export default function Navbar({
               {/* My Orders Button */}
               <button
                 onClick={onOpenOrders}
-                className="btn btn-brand-outline d-flex align-items-center gap-2 px-3 py-2 rounded-3"
+                className="btn btn-brand-outline d-flex align-items-center gap-2 px-3 py-2 rounded-1"
                 title="View placed orders"
               >
-                <PackageCheck size={18} className="text-info" />
+                <PackageCheck size={16} className="text-secondary" />
                 <span className="d-none d-sm-inline">Orders</span>
                 {orderCount > 0 && (
-                  <span className="badge bg-secondary rounded-pill ms-1">{orderCount}</span>
+                  <span className="badge bg-secondary rounded-1 ms-1 mono-font">{orderCount}</span>
                 )}
               </button>
 
               {/* Cart Button */}
               <button
                 onClick={onOpenCart}
-                className="btn btn-brand-gradient d-flex align-items-center gap-2 px-3 py-2 rounded-3 position-relative"
+                className="btn btn-brand-solid d-flex align-items-center gap-2 px-3 py-2 rounded-1 position-relative"
               >
-                <ShoppingBag size={18} />
+                <ShoppingBag size={16} />
                 <span className="d-none d-sm-inline">Cart</span>
                 {cartCount > 0 && (
-                  <span className="badge bg-danger rounded-pill px-2 py-1 ms-1">
+                  <span className="badge bg-danger rounded-1 px-1 ms-1 mono-font">
                     {cartCount}
                   </span>
                 )}
@@ -154,12 +161,11 @@ export default function Navbar({
             {isLoggedIn ? (
               <div className="d-flex align-items-center gap-2">
                 <div
-                  className="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm"
+                  className="rounded-1 d-flex align-items-center justify-content-center text-dark fw-bold bg-white"
                   style={{
-                    width: '36px',
-                    height: '36px',
-                    background: currentUser.role === 'ROLE_ADMIN' ? 'linear-gradient(135deg, #10b981, #06b6d4)' : 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-                    fontSize: '0.82rem'
+                    width: '32px',
+                    height: '32px',
+                    fontSize: '0.8rem'
                   }}
                   title={`${currentUser.firstName} ${currentUser.lastName} (${currentUser.role === 'ROLE_ADMIN' ? 'Shop Owner' : 'Customer'})`}
                 >
@@ -170,15 +176,15 @@ export default function Navbar({
                   <div className="text-white small fw-bold text-truncate" style={{ maxWidth: '110px' }}>
                     {currentUser.firstName}
                   </div>
-                  <div className="text-secondary" style={{ fontSize: '0.68rem' }}>
-                    {currentUser.role === 'ROLE_ADMIN' ? 'Seller' : 'Customer'}
+                  <div className="text-secondary mono-font" style={{ fontSize: '0.65rem' }}>
+                    {currentUser.role === 'ROLE_ADMIN' ? 'SELLER' : 'BUYER'}
                   </div>
                 </div>
 
                 <button
                   onClick={onSignOut}
-                  className="btn btn-sm btn-brand-outline p-1 rounded-2 ms-1 text-danger border-danger border-opacity-25"
-                  title="Sign Out"
+                  className="btn btn-sm btn-brand-outline p-1 rounded-1 ms-1 text-danger border-danger border-opacity-25"
+                  title="Sign out of account"
                 >
                   <LogOut size={15} />
                 </button>
@@ -186,8 +192,7 @@ export default function Navbar({
             ) : (
               <button
                 onClick={onOpenAuth}
-                className="btn btn-sm btn-brand-outline d-flex align-items-center gap-2 px-3 py-2 rounded-3 fw-bold"
-                style={{ borderColor: '#818cf8', color: '#c7d2fe' }}
+                className="btn btn-sm btn-brand-outline d-flex align-items-center gap-2 px-3 py-2 rounded-1 fw-bold"
               >
                 <LogIn size={15} />
                 <span>Sign In</span>

@@ -80,12 +80,12 @@ export default function OrdersModal({
           {/* Header */}
           <div className="modal-header border-secondary border-opacity-25 pb-3">
             <div className="d-flex align-items-center gap-2">
-              <div className="p-2 rounded-2 btn-brand-gradient">
-                <Package size={18} className="text-white" />
+              <div className="p-2 rounded-1 bg-white text-dark">
+                <Package size={18} className="text-dark" />
               </div>
               <div>
                 <h5 className="modal-title fw-bold text-white mb-0">
-                  My Orders &amp; Live Shipment Tracking
+                  Customer Orders &amp; Shipment Tracking
                 </h5>
                 <span className="text-secondary small">Real-Time Express Courier Tracking &amp; Delivery Progress</span>
               </div>
@@ -160,7 +160,7 @@ export default function OrdersModal({
                           {/* Live Track Package Action */}
                           <button
                             onClick={() => onOpenTracking(order)}
-                            className="btn btn-sm btn-brand-gradient py-1 px-3 d-flex align-items-center gap-2 fw-bold"
+                            className="btn btn-sm btn-brand-solid py-1 px-3 d-flex align-items-center gap-2 fw-bold"
                             style={{ fontSize: '0.8rem' }}
                             title="Open real-time interactive tracking timeline"
                           >
@@ -169,7 +169,7 @@ export default function OrdersModal({
                           </button>
 
                           <div className="text-end ps-2 border-start border-secondary border-opacity-25">
-                            <div className="fs-5 fw-bold text-white">
+                            <div className="fs-5 fw-bold text-white mono-font">
                               ${parseFloat(order.totalAmount).toFixed(2)}
                             </div>
                             {!isCancelled && (
@@ -189,23 +189,23 @@ export default function OrdersModal({
 
                       {/* Mini Delivery Progress Bar on Card */}
                       {!isCancelled && (
-                        <div className="mb-3 p-2 rounded-2" style={{ background: '#0b1120', border: '1px solid rgba(255,255,255,0.04)' }}>
+                        <div className="mb-3 p-2 rounded-1" style={{ background: '#0b1120', border: '1px solid #232734' }}>
                           <div className="d-flex justify-content-between align-items-center small text-secondary mb-1">
                             <span className="d-flex align-items-center gap-1">
-                              <Truck size={12} className="text-primary-accent" style={{ color: '#818cf8' }} />
+                              <Truck size={12} className="text-secondary" />
                               <strong className="text-light">Delivery Status:</strong> {order.status === 'DELIVERED' ? 'Arrived at Destination' : order.status === 'SHIPPED' ? 'In Transit with Courier' : 'Order Processing'}
                             </span>
-                            <span className="fw-bold" style={{ color: progressPct === 100 ? '#10b981' : '#818cf8' }}>
+                            <span className="fw-bold mono-font" style={{ color: progressPct === 100 ? '#10b981' : '#f8fafc' }}>
                               {progressPct}%
                             </span>
                           </div>
                           <div className="progress" style={{ height: '6px', background: '#1e293b' }}>
                             <div
-                              className="progress-bar progress-bar-striped progress-bar-animated"
+                              className="progress-bar"
                               role="progressbar"
                               style={{
                                 width: `${progressPct}%`,
-                                background: progressPct === 100 ? '#10b981' : 'linear-gradient(90deg, #6366f1, #a855f7)'
+                                background: progressPct === 100 ? '#10b981' : '#2563eb'
                               }}
                             />
                           </div>

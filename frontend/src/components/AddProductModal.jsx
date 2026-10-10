@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PlusCircle, Image, DollarSign, Layers, Package, Sparkles, Loader2 } from 'lucide-react';
+import { PlusCircle, Loader2 } from 'lucide-react';
 
 const PRESET_IMAGES = [
   { name: 'Wireless Earbuds', url: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80', cat: 'Audio' },
@@ -63,10 +63,10 @@ export default function AddProductModal({ isOpen, onClose, onProductCreated, cat
           {/* Header */}
           <div className="modal-header border-secondary border-opacity-25 pb-3">
             <div className="d-flex align-items-center gap-2">
-              <PlusCircle size={22} className="text-primary-accent" style={{ color: '#818cf8' }} />
+              <PlusCircle size={20} className="text-white" />
               <div>
-                <h5 className="modal-title fw-bold text-white mb-0">List New Product (Seller Portal)</h5>
-                <span className="text-secondary small">Publish verified merchandise to active customer storefront</span>
+                <h5 className="modal-title fw-bold text-white mb-0">List New Hardware SKU (Seller Portal)</h5>
+                <span className="text-secondary small">Publish verified inventory to active storefront catalog</span>
               </div>
             </div>
             <button type="button" className="btn-close btn-close-white" onClick={onClose} disabled={loading}></button>
@@ -209,23 +209,23 @@ export default function AddProductModal({ isOpen, onClose, onProductCreated, cat
 
             {/* Footer */}
             <div className="modal-footer border-secondary border-opacity-25">
-              <button type="button" className="btn btn-brand-outline" onClick={onClose} disabled={loading}>
+              <button type="button" className="btn btn-brand-outline rounded-1" onClick={onClose} disabled={loading}>
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="btn btn-brand-gradient px-4 py-2 d-flex align-items-center gap-2 fw-bold"
+                className="btn btn-brand-solid px-4 py-2 d-flex align-items-center gap-2 fw-bold rounded-1"
               >
                 {loading ? (
                   <>
-                    <Loader2 size={18} className="spinner-border spinner-border-sm" />
+                    <Loader2 size={16} className="spinner-border spinner-border-sm" />
                     <span>Publishing to Catalog...</span>
                   </>
                 ) : (
                   <>
-                    <PlusCircle size={18} />
-                    <span>Publish to Live Catalog</span>
+                    <PlusCircle size={16} />
+                    <span>Publish SKU to Catalog</span>
                   </>
                 )}
               </button>
