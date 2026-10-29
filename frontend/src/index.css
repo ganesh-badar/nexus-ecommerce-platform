@@ -7,33 +7,33 @@
   --font-display: 'Space Grotesk', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Architectural Monochrome & Technical Accents */
+  /* Architectural Slate Blue Palette (Impeccable Precision) */
   --primary-accent: #2563eb;
   --primary-hover: #1d4ed8;
-  --action-solid: #f8fafc;
-  --action-solid-text: #090a0f;
-  --action-solid-hover: #e2e8f0;
+  --action-solid: #DCE3EF;
+  --action-solid-text: #111522;
+  --action-solid-hover: #ffffff;
 
   --accent-cyan: #0284c7;
   --success-color: #10b981;
   --danger-color: #ef4444;
   --warning-color: #f59e0b;
 
-  /* Deep Surfaces & Precision Borders */
-  --bg-body: #070809;
-  --bg-surface: #0e1015;
-  --bg-surface-elevated: #131620;
-  --bg-card: #0e1015;
-  --border-subtle: #1e2536;
-  --border-medium: #2d3548;
-  --border-focus: #3d4a63;
+  /* Surfaces & Precision Borders (#111522 → #DCE3EF ramp) */
+  --bg-body: #111522;
+  --bg-surface: #1E263B;
+  --bg-surface-elevated: #303D59;
+  --bg-card: #1E263B;
+  --border-subtle: #303D59;
+  --border-medium: #536684;
+  --border-focus: #98A9C4;
 
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-primary: #DCE3EF;
+  --text-secondary: #98A9C4;
+  --text-muted: #536684;
 
-  --nav-bg: rgba(7, 8, 9, 0.95);
-  --glass-border: rgba(255, 255, 255, 0.06);
+  --nav-bg: rgba(17, 21, 34, 0.95);
+  --glass-border: rgba(220, 227, 239, 0.08);
 
   --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
   --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.6);
@@ -307,7 +307,7 @@ h1, h2, h3, .brand-font {
    FORM CONTROLS (Dark Theme)
    -------------------------------------------------------------------------- */
 .custom-input {
-  background: #080a0f;
+  background: var(--bg-body);
   border: 1px solid var(--border-subtle);
   color: var(--text-primary);
   border-radius: 4px;
@@ -316,7 +316,7 @@ h1, h2, h3, .brand-font {
 }
 
 .custom-input:focus {
-  background: #080a0f;
+  background: var(--bg-body);
   border-color: var(--primary-accent);
   color: #ffffff;
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);

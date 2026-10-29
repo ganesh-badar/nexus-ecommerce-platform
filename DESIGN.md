@@ -2,37 +2,36 @@
 
 ## 1. Design Philosophy & System Identity
 - **Product Truth**: Direct hardware & storefront logistics platform for commercial computing, studio audio, and precision electronics.
-- **Mode**: Operate — Precision B2B e-commerce, high scanability, crisp architectural dark theme.
+- **Mode**: Operate — Precision B2B e-commerce, high scanability.
+- **Color Theme**: Palette 1 — Slate Steel Blue (`#111522` → `#DCE3EF`).
 - **Craft Floor Rules**: Zero gradient text, zero faux ratings, crisp 4px/6px radii (no pills), strict browser surface theming (selection, scrollbars, focus ring, tabular nums), minimum functional font size of 12px.
 
-## 2. Color Palette & Surfaces
+## 2. Color Palette & Surfaces (Slate Steel Blue)
 ```css
 :root {
-  /* Surfaces */
-  --bg-body: #070809;
-  --bg-surface: #0e1015;
-  --bg-surface-elevated: #131620;
-  --bg-card: #0e1015;
+  /* Surfaces & Precision Borders (#111522 → #DCE3EF ramp) */
+  --bg-body: #111522;             /* Deepest base surface */
+  --bg-surface: #1E263B;          /* Cards & panels */
+  --bg-surface-elevated: #303D59; /* Elevated active items */
+  --bg-card: #1E263B;
 
-  /* Borders */
-  --border-subtle: #1e2536;
-  --border-medium: #2d3548;
-  --border-focus: #3d4a63;
+  /* Borders & Dividers */
+  --border-subtle: #303D59;
+  --border-medium: #536684;
+  --border-focus: #98A9C4;
 
   /* Typography */
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-primary: #DCE3EF;        /* High-contrast crisp text */
+  --text-secondary: #98A9C4;      /* Informational secondary text */
+  --text-muted: #536684;          /* De-emphasized metadata */
 
-  /* Accents */
+  /* Navigation & Action */
+  --nav-bg: rgba(17, 21, 34, 0.95);
+  --action-solid: #DCE3EF;
+  --action-solid-text: #111522;
+  --action-solid-hover: #ffffff;
   --primary-accent: #2563eb;
   --primary-hover: #1d4ed8;
-  --action-solid: #f8fafc;
-  --action-solid-text: #090a0f;
-  --action-solid-hover: #e2e8f0;
-  --success-color: #10b981;
-  --warning-color: #f59e0b;
-  --danger-color: #ef4444;
 }
 ```
 
@@ -46,13 +45,12 @@
   - Badges & SKU: 0.75rem (12px, WCAG legibility compliant)
 
 ## 4. Elevation & Controls
-- **Card Geometry**: 6px radius, 1px subtle border (`var(--border-subtle)`), zero ghost card shadows. Hover transition: subtle border highlight to `var(--border-medium)` and -2px translateY.
-- **Buttons**: Crisp 4px rectangular border radius. Zero pill buttons. Solid light action buttons (`#f8fafc`) for maximum contrast against deep slate background.
+- **Card Geometry**: 6px radius, 1px subtle border (`var(--border-subtle)`). Hover transition: subtle border highlight to `var(--border-medium)` and -2px translateY.
+- **Buttons**: Crisp 4px rectangular border radius. Zero pill buttons. Solid action buttons (`#DCE3EF`) with `#111522` text for maximum contrast against deep slate background.
 - **Drawer & Modals**: 440px off-canvas cart drawer with 1px border-left and solid backdrop filter.
 
 ## 5. Browser Surfaces
-- `::selection`: `rgba(37, 99, 235, 0.35)` with `#f1f5f9`
+- `::selection`: `rgba(83, 102, 132, 0.4)` with `#DCE3EF`
 - `input, textarea, select`: `caret-color: #2563eb`
 - `:focus-visible`: `2px solid #2563eb`, outline offset 2px
-- `::-webkit-scrollbar`: 8px width, `#2d3548` thumb with `#070809` track
-
+- `::-webkit-scrollbar`: 8px width, `#536684` thumb with `#111522` track
