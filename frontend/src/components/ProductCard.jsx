@@ -64,8 +64,8 @@ export default function ProductCard({ product, onAddToCart, onQuickView }) {
         {/* Price & Action Footer */}
         <div className="d-flex align-items-center justify-content-between pt-2 border-top border-secondary border-opacity-25 mt-auto">
           <div>
-            <span className="text-secondary mono-font" style={{ fontSize: '0.7rem', display: 'block' }}>UNIT PRICE</span>
-            <span className="fs-5 fw-bold text-white">
+            <span className="text-secondary mono-font" style={{ fontSize: '0.75rem', display: 'block' }}>UNIT PRICE</span>
+            <span className="fs-5 fw-bold text-white" style={{ fontVariantNumeric: 'tabular-nums' }}>
               ${parseFloat(product.price).toFixed(2)}
             </span>
           </div>
