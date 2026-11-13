@@ -37,7 +37,23 @@ export default function Navbar({
   };
 
   return (
-    <nav className="glass-nav py-3">
+    <header className="sticky-top" style={{ zIndex: 1030 }}>
+      {/* Promotional Ribbon Banner (Apple Store Style) */}
+      <div 
+        className="text-center py-2 px-3" 
+        style={{ 
+          background: 'rgba(14, 18, 29, 0.95)', 
+          borderBottom: '1px solid rgba(48, 61, 89, 0.6)', 
+          fontSize: '0.8rem', 
+          color: 'var(--text-secondary)' 
+        }}
+      >
+        <span>Get up to 6 months of No Cost EMI plus up to ₹15,000 instant cashback on enterprise hardware with eligible cards.</span>
+        <a href="#" className="text-decoration-none ms-2 fw-semibold" style={{ color: 'var(--text-primary)' }}>
+          Shop Hardware &rarr;
+        </a>
+      </div>
+      <nav className="glass-nav py-3">
       <div className="container d-flex flex-wrap align-items-center justify-content-between gap-3">
         {/* Brand Logo & Domain Identifier (NO EMOJIS, NO PURPLE) */}
         <div className="d-flex align-items-center gap-3">
@@ -180,5 +196,6 @@ export default function Navbar({
         </div>
       </div>
     </nav>
+    </header>
   );
 }
